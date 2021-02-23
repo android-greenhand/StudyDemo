@@ -1,0 +1,31 @@
+package com.example.studyApp.comment
+
+import android.app.ProgressDialog.show
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.studyApp.R
+import kotlinx.android.synthetic.main.activity_comment.*
+
+
+class CommentActivity : AppCompatActivity() {
+    private val mViewModel by lazy {
+        ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(CommentActivityViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_comment)
+
+        bottom_sheet_dialog_fragment_text.setOnClickListener {
+            BottomSheetFragment().show(supportFragmentManager, "test")
+            mViewModel.mCommentStatus.value = false
+        }
+
+        mViewModel.mCommentStatus.observe(this, Observer {
+            bottom_sheet_dialog_fragment_text.text = if (it) "展开" else "隐藏"
+        })
+    }
+}

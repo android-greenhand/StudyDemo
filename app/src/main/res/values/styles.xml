@@ -1,0 +1,29 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppNoActionBarTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="windowActionBar">false</item> <!--如果要取消标题栏 -->
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="DialogTheme">
+        <!--设置dialog的背景，（#00000000）-->
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowIsFloating">true</item><!-- 是否浮现在activity之上 -->
+        <item name="android:windowFrame">@null</item><!-- 边框 -->
+        <item name="android:windowNoTitle">false</item> <!-- 无标题栏 -->
+        <item name="android:windowIsTranslucent">true</item><!-- 是否半透明,背景图或背景色的透明度优先于此 -->
+        <item name="android:windowBackground">@android:color/transparent</item>   <!-- 背景透明 -->
+        <item name="android:backgroundDimEnabled">false</item><!--是否开启dlg显示时后面的灰暗背景，false表示不开启 -->
+        <item name="android:backgroundDimAmount">0.7</item> <!-- dlg显示时灰暗背景的灰暗值,0.0是无灰暗背景，它的优先级低于backgroundDimEnabled -->
+    </style>
+
+</resources>

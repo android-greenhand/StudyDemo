@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="home_status_bar_view" type="id" />
+    <item name="custom_status_bar_view" type="id" />
+    <item name="custom_status_bar_translucent_view" type="id" />
+</resources>

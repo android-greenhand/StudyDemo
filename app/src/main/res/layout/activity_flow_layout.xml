@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.example.studyApp.customView.FlowLayout
+        android:layout_margin="10dp"
+        android:layout_width="1000px"
+        android:layout_height="wrap_content"
+        app:verticalSpace="10"
+        app:horizontalSpace="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="就会不断激发很多吧"
+            android:gravity="center"
+            android:padding="5dp"
+            android:background="@drawable/corners_text_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="布局对方就会不断激发很多吧"
+            android:gravity="center"
+            android:padding="5dp"
+            android:background="@drawable/text_view_default_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="布局对方很多吧"
+            android:gravity="center"
+            android:padding="5dp"
+            android:background="@drawable/text_view_default_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="布局对方就很多吧"
+            android:gravity="center"
+            android:padding="5dp"
+            android:background="@drawable/text_view_default_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="布很多吧"
+            android:gravity="center"
+            android:padding="5dp"
+            android:background="@drawable/text_view_default_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="布局对方就会不断激发很多吧"
+            android:gravity="center"
+            android:padding="5dp"
+            android:background="@drawable/text_view_default_bg"/>
+
+
+    </com.example.studyApp.customView.FlowLayout>
+
+</LinearLayout>
