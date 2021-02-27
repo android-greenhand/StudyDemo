@@ -10,7 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".xiangxue.prxoy.ProxyActivity"
+            android:label="xiangxue/proxy">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".jetpack.DataBindingActivity"
             android:label="jetpack/dataBinding">
@@ -20,7 +27,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".comment.CommentActivity"
             android:label="仿抖音评论布局">
@@ -30,7 +36,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".StatusBar.StatusBarActivity"
             android:label="StatusBar">
@@ -40,7 +45,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
         <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +52,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".behavior.BehaviorActivity"
             android:label="Behavior"
@@ -59,7 +62,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".animation.LottieActivity"
             android:label="Animation/Lottie">
@@ -69,7 +71,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".github.ViewMoreTextViewActivity"
             android:label="Github/viewMoreTextView">
@@ -79,7 +80,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".customView.ToastActivity"
             android:label="CustomView/Toast在子线程">
@@ -89,7 +89,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".JNI.JNIActivity"
             android:label="JNI">
@@ -99,7 +98,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".customView.FlowLayoutActivity"
             android:label="CustomView/FlowLayout">
