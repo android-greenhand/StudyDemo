@@ -2,8 +2,11 @@ package com.example.studyApp.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -33,6 +36,19 @@ public class MainActivity extends AppCompatActivity {
         RecycleViewDelegate recycleViewDelegate = new RecycleViewDelegate(findViewById(R.id.main_recycle_view));
 
         recycleViewDelegate.recycleViewUpdate(getData(path));
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            int REQUEST_CODE_CONTACT = 101;
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            //验证是否许可权限
+            for (String str : permissions) {
+                if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
+                    //申请权限
+                    this.requestPermissions(permissions, REQUEST_CODE_CONTACT);
+                }
+            }
+        }
+
 
     }
 

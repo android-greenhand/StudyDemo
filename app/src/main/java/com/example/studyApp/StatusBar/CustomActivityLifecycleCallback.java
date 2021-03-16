@@ -13,7 +13,7 @@ public class CustomActivityLifecycleCallback implements Application.ActivityLife
     };
 
     private CustomActivityLifecycleCallback() {
-        StatusBarUtils.registerActivity(StatusBarUtils.HASH_MAP_KEY_1, mActivityS);
+        StatusBarUtils.registerNeedStatusBarTranWithFullScreenActivity(mActivityS);
     }
 
     private static final class Singleton {
@@ -32,7 +32,7 @@ public class CustomActivityLifecycleCallback implements Application.ActivityLife
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
-        StatusBarUtils.toggleStatusBar(StatusBarUtils.HASH_MAP_KEY_1, activity);
+     //   StatusBarUtils.toggleStatusBar(activity);
     }
 
     @Override

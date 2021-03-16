@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.studyApp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
+
     <application
         android:name=".CustomApplication"
         android:allowBackup="true"
@@ -10,7 +14,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".xiangxue.prxoy.ProxyActivity"
+        <activity
+            android:name=".demo.ScreenCapture.ScreenCaptureActivity"
+            android:label="demo/ScreenCapture">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".xiangxue.prxoy.ProxyActivity"
             android:label="xiangxue/proxy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

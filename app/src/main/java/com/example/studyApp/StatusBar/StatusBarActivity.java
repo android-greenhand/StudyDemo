@@ -14,17 +14,13 @@ public class StatusBarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status_bar);
         getSupportActionBar().hide();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//        StatusBarUtils.statusBarLightModeWithFullScreen(this,false);
+//      //  StatusBarUtils.statusBarLightMode(this,true);
 //
-//            View decorView = getWindow().getDecorView();
-//            //
-//            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-//                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-//            decorView.setSystemUiVisibility(option);
-//            getSupportActionBar().hide();
-//            // 状态栏透明
-//            getWindow().setStatusBarColor(Color.TRANSPARENT);
-//        }
+//      //  StatusBarUtils.setStatusBarColor(this,R.color.colorAccent);
+//
+//      // StatusBarUtils.setTranslucent(this);
+//        StatusBarUtils.transparencyBar(this);
 
     }
 }

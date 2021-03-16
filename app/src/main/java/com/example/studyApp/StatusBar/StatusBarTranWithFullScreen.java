@@ -7,14 +7,16 @@ import java.lang.annotation.Target;
 
 /**
  * 针对4.4以上机型（除小米、魅族、Android6.0系统以上）设置
+ *
  * <p>
- * 防止其自动添加statusbarview，默认是不忽略，也就是说添加
- * <p>
- * Created by hanhailong on 2017/7/26.
+ *     Activity 添加此注解，全屏展示Activity，
+ *     状态栏透明，且黑色字体（亮主题）
+ * </p>
+ *
  */
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface IgnoreStatusBar {
-    boolean isIgnoreStatusBarView() default false;
+public @interface StatusBarTranWithFullScreen {
+
 }

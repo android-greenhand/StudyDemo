@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.system.Os;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +17,10 @@ import androidx.annotation.IntRange;
 
 import com.example.studyApp.R;
 
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * 状态栏工具
@@ -34,31 +30,43 @@ import java.util.Set;
  * Android 4.4 - ~
  * 支持4.4以上版本
  * <p>
- *
+ * <p>
  * 状态栏透明半透明、背景颜色改变：
  * 5.0（API 21） 以上API提供单独设置状态栏颜色
  * 4.4-5.0（API 19 - API 21） 状态栏透明 + View（颜色）
  * 4.4（API 19） 以前状态栏永远黑底白字，不能改变
- *
+ * <p>
  * 状态栏字体修改：
  * 6.0 (API 23) 提供API可以更改状态栏的字体为黑色字体
  * 4.4-5.0（API 19 - API 21)魅族和小米手机字体可以改成黑色字体
  * 4.4（API 19） 以前状态栏永远黑底白字，不能改变
- *
+ * <p>
+ * <p>
+ * 注意：
+ * 1.setStatusBarColor（）不支持系统颜色 如：setStatusBarColor（Color.WHITE）会失效
+ * 2.不要在多线程中使用
+ * 3.
+ * <p>
+ * 使用：状态栏透明 黑色字体 activity全屏展示
+ * 1.添加注解：StatusBarTranWithFullScreen
+ * 2.在StatusBarLifecycleCallbacks类中添加activity的类名
  */
 
 @SuppressWarnings("deprecation")
 public class StatusBarUtils {
 
-    private static final String TAG = "StatusBarUtils";
+    private static final String TAG = StatusBarUtils.class.getName();
     private static final int DEFAULT_STATUS_BAR_ALPHA = 112;
-    private static int sStatusBarPadding;
-    private static final int STATUS_BAR_VIEW_ID = R.id.custom_status_bar_view;
-    private static final int TRANSLUCENT_VIEW_ID = R.id.custom_status_bar_translucent_view;
-    private static HashMap<String, Set<String>> SHOW_STATUS_BAR_ACTIVITY = new HashMap<>();
-
-    //自定义的hashMap key值，外部注册使用
-    public static final String HASH_MAP_KEY_1 = "HASH_MAP_KEY_1";
+    private static final int NOT_INIT_FIELD = -1;
+    private static final int IS_MEI_ZU_PHONE = 1;
+    private static final int NOT_MEI_ZU_PHONE = 0;
+    private static int sStatusBarHeight = 0;
+    private static boolean sInitStatusBarChange = false;
+    private static boolean sStatusBarChange = false;
+    private static final int STATUS_BAR_VIEW_ID = R.id.wbu_custom_status_bar_view;
+    private static final int TRANSLUCENT_VIEW_ID = R.id.wbu_custom_status_bar_translucent_view;
+    private static HashSet<String> sStatus_Bar_Change_HashSet = new HashSet<>();
+    private static int sMeiZuOS = NOT_INIT_FIELD;
 
     /**
      * 针对4.4-5.0的手机，修改状态栏颜色。
@@ -104,27 +112,32 @@ public class StatusBarUtils {
     }
 
     /**
-     * APP启动的时候，用LaunchActivity确定是否支持透明状态栏。
+     * APP启动的时候，用LaunchActivity确定是否支持黑色字体状态栏。
      *
      * @param activity
-     * @return 不支持时，返回状态栏的高度。否则返回0
+     * @return false 不支持修改成黑色状态栏
      */
-    public static int initStatusBarPadding(Activity activity) {
+    private static boolean statusBarSupportChange(Activity activity) {
+        if (sInitStatusBarChange) {
+            return sStatusBarChange;
+        }
+        sInitStatusBarChange = true;
         try {
-            sStatusBarPadding = getStatusBarHeight(activity);
+            sStatusBarChange = false;
+            sStatusBarHeight = getStatusBarHeight(activity);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 if (miuiSetStatusBarLightMode(activity, true)) {
-                    sStatusBarPadding = 0;
+                    sStatusBarChange = true;
                 } else if (flymeSetImmersedWindow(activity.getWindow(), true)) {
-                    sStatusBarPadding = 0;
+                    sStatusBarChange = true;
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    sStatusBarPadding = 0;
+                    sStatusBarChange = true;
                 }
-                return sStatusBarPadding;
+                return sStatusBarChange;
             }
         } catch (Exception e) {
         }
-        return sStatusBarPadding;
+        return sStatusBarChange;
     }
 
     /**
@@ -132,8 +145,8 @@ public class StatusBarUtils {
      *
      * @return int 返回状态栏的高度
      */
-    public static int getsStatusBarPadding() {
-        return sStatusBarPadding;
+    public static int getStatusBarHeight() {
+        return sStatusBarHeight;
     }
 
     /**
@@ -141,49 +154,21 @@ public class StatusBarUtils {
      * 适配4.4以上版本MIUIV、Flyme和6.0以上版本其他Android
      *
      * @param activity
+     * @param bDark 图标是否为黑色
      * @return 1:MIUI 2:Flyme 3:android6.0 4.其他
      */
-    public static int statusBarLightMode(Activity activity) {
+    public static int statusBarLightMode(Activity activity, boolean bDark) {
         int result = 0;
-        IgnoreStatusBar ignoreStatusBar = checkAnnotation(activity.getClass());
-        if (ignoreStatusBar != null && ignoreStatusBar.isIgnoreStatusBarView()) {
-            return result;
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (miuiSetStatusBarLightMode(activity, true)) {
+            if (miuiSetStatusBarLightMode(activity, bDark)) {
                 result = 2;
-            } else if (flymeSetStatusBarLightMode(activity.getWindow(), true)) {
+            } else if (flymeSetStatusBarLightMode(activity.getWindow(), bDark)) {
                 result = 3;
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                result = 1;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 状态栏透明
-     *
-     * @param activity
-     * @return
-     */
-    public static int statusBarTrans(Activity activity) {
-        int result = 0;
-        IgnoreStatusBar ignoreStatusBar = checkAnnotation(activity.getClass());
-        if (ignoreStatusBar != null && ignoreStatusBar.isIgnoreStatusBarView()) {
-            return result;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (miuiSetStatusBarLightMode(activity, true)) {
-                result = 2;
-            } else if (flymeSetStatusBarLightMode(activity.getWindow(), true) && flymeSetImmersedWindow(activity.getWindow(), true)) {
-                result = 3;
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                activity.getWindow().getDecorView().setSystemUiVisibility(bDark ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : View.SYSTEM_UI_FLAG_VISIBLE);
                 result = 1;
             } else {
-                setupStatusBarView(activity, Color.GRAY);
+                removeStatusBarView(activity);
                 result = 4;
             }
         }
@@ -191,25 +176,43 @@ public class StatusBarUtils {
     }
 
     /**
-     * 字体图案设置为黑色
+     * 状态栏透明,Activity全屏显示,状态栏字体为黑色
+     *
+     * @param activity
+     * @return
+     */
+    private static boolean statusBarTrans(Activity activity) {
+        StatusBarTranWithFullScreen statusBarTranWithFullScreen = checkAnnotation(activity.getClass());
+        if (statusBarTranWithFullScreen == null) {
+            return false;
+        }
+        transparencyBar(activity); // Activity全屏显示 状态栏为透明
+        statusBarLightModeWithFullScreen(activity, true);  //状态栏字体为黑色
+       // setStatusBarColor(activity, R.color.transparent);
+        return true;
+    }
+
+    /**
+     * 字体图案设置为黑色,Activity全屏显示
      * <p>
      * 状态栏字体图案默认是白色
      * 6.0以上版本选择状态栏黑色字体
      *
      * @param activity
+     * @param dark     黑色图标
      * @return
      */
-    public static int statusBarDarkMode(Activity activity) {
+    public static int statusBarLightModeWithFullScreen(Activity activity, boolean dark) {
         int result = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 //Activity全屏显示，但是状态栏不会被覆盖掉，而是正常显示，只是Activity顶端布局会被覆盖住
                 //选择黑色字体图案
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                activity.getWindow().getDecorView().setSystemUiVisibility(dark ? View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : View.SYSTEM_UI_FLAG_VISIBLE);
                 result = 1;
-            } else if (miuiSetStatusBarLightMode(activity, false)) {
+            } else if (miuiSetStatusBarLightMode(activity, dark)) {
                 result = 2;
-            } else if (flymeSetStatusBarLightMode(activity.getWindow(), false) && flymeSetImmersedWindow(activity.getWindow(), true)) {
+            } else if (flymeSetStatusBarLightMode(activity.getWindow(), dark) && flymeSetImmersedWindow(activity.getWindow(), dark)) {
                 result = 3;
             } else {
                 removeStatusBarView(activity);
@@ -219,13 +222,13 @@ public class StatusBarUtils {
         return result;
     }
 
-    private static IgnoreStatusBar checkAnnotation(Class<? extends Activity> activityClass) {
+    private static StatusBarTranWithFullScreen checkAnnotation(Class<? extends Activity> activityClass) {
         Class mc = activityClass;
-        IgnoreStatusBar ignoreStatusBar;
+        StatusBarTranWithFullScreen statusBarTranWithFullScreen;
         while (Activity.class.isAssignableFrom(mc)) {
-            ignoreStatusBar = (IgnoreStatusBar) mc.getAnnotation(IgnoreStatusBar.class);
-            if (ignoreStatusBar != null)
-                return ignoreStatusBar;
+            statusBarTranWithFullScreen = (StatusBarTranWithFullScreen) mc.getAnnotation(StatusBarTranWithFullScreen.class);
+            if (statusBarTranWithFullScreen != null)
+                return statusBarTranWithFullScreen;
             mc = mc.getSuperclass();
         }
         return null;
@@ -237,7 +240,7 @@ public class StatusBarUtils {
      * @param activity
      * @return true 支持沉浸式布局
      */
-    public static boolean isSupportImmersiveBar(Activity activity) {
+    private static boolean isSupportImmersiveBar(Activity activity) {
         boolean isSupport = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -257,18 +260,18 @@ public class StatusBarUtils {
      *
      * @return boolean 是魅族手机返回true
      */
-    private static boolean isMeizuFlymeOS() {
+    private static int isMeizuFlymeOS() {
         try {
             Class<?> clz = Class.forName("android.os.SystemProperties");
             Method get = clz.getMethod("get", String.class, String.class);
             String meizuFlymeOSFlag = (String) get.invoke(clz, "ro.build.display.id", "");
             if (!TextUtils.isEmpty(meizuFlymeOSFlag) && meizuFlymeOSFlag.toLowerCase().contains("flyme")) {
-                return true;
+                return IS_MEI_ZU_PHONE;
             }
         } catch (Exception ignored) {
 
         }
-        return false;
+        return NOT_MEI_ZU_PHONE;
     }
 
     /**
@@ -315,9 +318,13 @@ public class StatusBarUtils {
      * @return boolean 成功执行返回true
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public static boolean flymeSetImmersedWindow(Window window, boolean immersive) {
+    private static boolean flymeSetImmersedWindow(Window window, boolean immersive) {
         boolean result = false;
-        if (!isMeizuFlymeOS()) {
+
+        if (sMeiZuOS == -1) {
+            sMeiZuOS = isMeizuFlymeOS();
+        }
+        if (sMeiZuOS == NOT_MEI_ZU_PHONE) {
             return result;
         }
         if (window != null) {
@@ -356,7 +363,7 @@ public class StatusBarUtils {
      * @param dark     是否把状态栏字体及图标颜色设置为深色
      * @return boolean 成功执行返回true
      */
-    public static boolean miuiSetStatusBarLightMode(Activity activity, boolean dark) {
+    private static boolean miuiSetStatusBarLightMode(Activity activity, boolean dark) {
         boolean result = false;
         if (activity == null) return result;
         Window window = activity.getWindow();
@@ -399,7 +406,7 @@ public class StatusBarUtils {
      *
      * @param activity
      */
-    public static void showStatusBar(Activity activity) {
+    public static void showNormalStatusBar(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 //状态栏和Activity共存，Activity不全屏显示。也就是应用平常的显示画面
@@ -409,31 +416,7 @@ public class StatusBarUtils {
     }
 
     /**
-     * @param activity
-     * @param bDark
-     */
-    public static void setDarkStatusIcon(Activity activity, boolean bDark) {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                View decorView = activity.getWindow().getDecorView();
-                if (decorView != null) {
-                    int vis = decorView.getSystemUiVisibility();
-                    if (bDark) {
-                        vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    } else {
-                        vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    }
-                    decorView.setSystemUiVisibility(vis);
-                }
-            }
-        } catch (Exception e) {
-            //为啥不用TLog打印出来，因为在此时Tlog还没有被初始化
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 修改状态栏为全透明
+     * 修改状态栏为全透明 启用全屏模式
      *
      * @param activity 需要设置的activity
      */
@@ -467,7 +450,7 @@ public class StatusBarUtils {
     public static void setStatusBarColor(Activity activity, int colorId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
-            window.setStatusBarColor(colorId);
+            window.setStatusBarColor(activity.getResources().getColor(colorId));
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             transparencyBar(activity);
             setupStatusBarView(activity, colorId);
@@ -538,47 +521,48 @@ public class StatusBarUtils {
     }
 
     /**
-     * 需要隐藏的Activity状态栏
+     * 判断是否在HashSet中
      *
-     * @param hashMapKey HashMap的key值,自己定义。
-     * @param activity   需要设置的activity
-     * @return true 需要将状态栏改成透明
+     * @param activity 需要判断的activity
+     * @return true 在HashSet中，activity全屏展示，透明背景黑色字体的状态栏
      */
-    private static boolean needStatusBarColorTran(String hashMapKey, Activity activity) {
-        Set<String> activitySet = SHOW_STATUS_BAR_ACTIVITY.get(hashMapKey);
-        if (activity != null && activitySet != null) {
-            if (activitySet.contains(activity.getClass().getName())) return true;
-        }
-        return false;
+    private static boolean needStatusBarColorTran(Activity activity) {
+        return activity != null && sStatus_Bar_Change_HashSet.contains(activity.getClass().getName());
     }
 
     /**
-     * 注册需要隐藏的Activity状态栏
+     * 注册Activity全屏展示，透明背景黑色字体的状态栏
      *
-     * @param hashMapKey    HashMap的key值,自己定义。
      * @param activityNameS ActivityName数组
      * @return void
      */
-    public static void registerActivity(String hashMapKey, String[] activityNameS) {
-        Set<String> stringSet = new HashSet<>();
-        Collections.addAll(stringSet, activityNameS);
-        SHOW_STATUS_BAR_ACTIVITY.put(hashMapKey, stringSet);
+    public static void registerNeedStatusBarTranWithFullScreenActivity(String[] activityNameS) {
+        Collections.addAll(sStatus_Bar_Change_HashSet, activityNameS);
+    }
+
+    public static void registerNeedStatusBarTranWithFullScreenActivity(String activityName) {
+        sStatus_Bar_Change_HashSet.add(activityName);
     }
 
     /**
      * 处理Activity状态栏
      *
-     * @param hashMapKey HashMap的key值,自己定义。
-     * @param activity   要处理的Activity
+     * @param activity 要处理的Activity
      * @return void
      */
-    public static void toggleStatusBar(String hashMapKey, Activity activity) {
-        if (needStatusBarColorTran(hashMapKey, activity)) {
+    public static void toggleStatusBar(Activity activity) {
+
+        if (statusBarSupportChange(activity) && statusBarTrans(activity)) {
+            return;
+        }
+
+        if (statusBarSupportChange(activity) && needStatusBarColorTran(activity)) {
             transparencyBar(activity); // Activity全屏显示 状态栏为透明
-            statusBarDarkMode(activity);  //状态栏字体为黑色
-            setStatusBarColor(activity, Color.TRANSPARENT);
+            statusBarLightModeWithFullScreen(activity, true);  //状态栏字体为黑色
+            setStatusBarColor(activity, R.color.transparent);
         } else {
-            showStatusBar(activity);
+            showNormalStatusBar(activity);
+            StatusBarUtils.statusBarLightMode(activity,true);
         }
     }
 
