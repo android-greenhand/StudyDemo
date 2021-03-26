@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -41,15 +42,29 @@ class ScreenCaptureActivity : AppCompatActivity() {
                     }
                 })
 
-        mScreenCaptureUtil.setScrollViewAndContentHeight(web_view,0)
+        mScreenCaptureUtil.setScrollViewAndContentHeight(web_view)
         screen_capture.setOnClickListener {
             mScreenCaptureUtil.startScreenCapture()
+
+//         val bitmap=   ScreenShotUtil(this@ScreenCaptureActivity).startScreenShot()
+//            screen_capture_result.setImageBitmap(bitmap)
         }
 
+        var y =1000;
 
         long_screen_capture.setOnClickListener {
             screen_capture_result.visibility = View.GONE
             mScreenCaptureUtil.startLongScreenCapture()
+//            web_view.scrollTo(0,y)
+//
+//                    Log.d("gzpcanScrollVertically",web_view.canScrollVertically(-1).toString())
+//                    Log.d("gzpcanScrollVertically",web_view.canScrollVertically(1).toString())
+//                    Log.d("gzpcancontentHeight",web_view.contentHeight.toString())
+//            Log.d("gzpcancontentHeight",web_view.scrollY.toString())
+//
+//            y+=100
+
+
         }
     }
 
@@ -67,4 +82,7 @@ class ScreenCaptureActivity : AppCompatActivity() {
         super.onStop()
         mScreenCaptureUtil.onDestroy();
     }
+
+
+
 }
