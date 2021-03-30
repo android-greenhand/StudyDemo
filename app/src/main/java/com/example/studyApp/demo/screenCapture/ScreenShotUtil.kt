@@ -1,21 +1,6 @@
-package com.example.studyApp.demo.ScreenCapture
+package com.example.studyApp.demo.screenCapture
 
 import android.app.Activity
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.os.Build
-import android.util.Log
-import android.view.View
-import androidx.annotation.RequiresApi
-import androidx.core.graphics.drawable.toBitmap
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-import java.util.function.Function
 
 /**
  *
