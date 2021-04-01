@@ -20,20 +20,28 @@ import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.nio.ByteBuffer;
 
@@ -99,8 +107,6 @@ public class ScreenCaptureUtil {
             ScreenShotUtilHelper.Companion.saveFile(newBitmap, "11.png");
             Log.d(TAG, "Bitmap大小:" + newBitmap.getByteCount() / 1024);
             onComplete();
-
-
         }
 
         @Override
@@ -132,8 +138,30 @@ public class ScreenCaptureUtil {
      *
      * @param view
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void setScrollViewAndContentHeight(View view) {
         this.mCanScrollView = view;
+
+        if(view instanceof RecyclerView){
+            ((RecyclerView)mCanScrollView).addOnScrollListener(new RecyclerView.OnScrollListener(){
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    mEndValue = dy;
+                }
+            });
+
+        }
+
+        if(view instanceof WebView){
+            mCanScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    mEndValue = scrollY;
+                }
+            });
+        }
+
+
     }
 
     public void startScreenCapture() {
@@ -246,6 +274,7 @@ public class ScreenCaptureUtil {
         mSupernatantTextView.setText("点击屏幕，停止截屏");
         mSupernatantTextView.setGravity(Gravity.BOTTOM | Gravity.LEFT);
         mSupernatantTextView.setTextSize(20);
+       // mSupernatantTextView.scrollTo();
         mSupernatantTextView.setBackgroundColor(Color.argb(50, 0, 0, 0));
         mSupernatantView.addView(mSupernatantTextView, FrameLayout.LayoutParams.MATCH_PARENT, 300);
         mSupernatantView.setOnClickListener(new View.OnClickListener() {
@@ -299,7 +328,7 @@ public class ScreenCaptureUtil {
     volatile boolean isScrollBottom = false;
     volatile int mScrollActualHeight = 0;
 
-    private void startScrollAnimation(final int scrollHeight) {
+    private void startScrollAnimation1(final int scrollHeight) {
         final int lastScrollHeight = mCanScrollView.getScrollY();
         //scrollHeight = 0,证明是第一次截图,那就无需滚动控件
         if (scrollHeight <= 0) {
@@ -336,6 +365,62 @@ public class ScreenCaptureUtil {
             }
         });
         scrollAnimator.start();
+    }
+
+    int mEndValue = 0;
+    int startY = mEndValue;
+    private void startScrollAnimation(final int scrollHeight) {
+
+        //scrollHeight = 0,证明是第一次截图,那就无需滚动控件
+        if (scrollHeight <= 0) {
+            startScreenCapture();
+
+            return;
+        }
+        if (mSupernatantView == null) {
+            createSupernatantViewGroup();
+        }
+
+        final int x = mScreenWidth /2;
+        final int y = mScreenHeight - mNavigationHeight - mStatusBarHeight ;
+
+        final MotionEvent event =
+                MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, x, y, 0);
+        mCanScrollView.dispatchTouchEvent(event);
+
+        ValueAnimator scrollAnimator = ValueAnimator.ofInt(y,y/2);
+        scrollAnimator.setInterpolator(new LinearInterpolator());
+        scrollAnimator.setDuration(1000);
+        scrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                if (!mClickScreenShotEnd && mCanScrollView.canScrollVertically(1)) {
+                    event.setLocation(x,value);
+                    event.setAction(MotionEvent.ACTION_MOVE);
+                    mCanScrollView.dispatchTouchEvent(event);
+                } else {
+                    isScrollBottom = true;
+                }
+            }
+        });
+        scrollAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                event.setAction(MotionEvent.ACTION_UP);
+                mCanScrollView.dispatchTouchEvent(event);
+                event.recycle();
+                mScrollActualHeight = mEndValue - startY ;
+                startScreenCapture();
+            }
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                startY = mEndValue;
+            }
+        });
+        scrollAnimator.start();
+
     }
 
 
@@ -527,6 +612,10 @@ public class ScreenCaptureUtil {
                     } else {
                         mergeBitmap(resultBitmap, mTempBitmap, canvas, paint, mTempBitmap.getHeight() - mNavigationHeight - mScrollActualHeight, mTempBitmap.getHeight() - mNavigationHeight);
                     }
+                }
+
+                if (mSupernatantTextView != null) {
+                    mSupernatantTextView.setText("正在合并截图");
                 }
 
                 if (mTempBitmap == null) {
