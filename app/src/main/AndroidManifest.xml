@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".demo.ScreenCapture.ScreenCaptureActivity"
+            android:name=".demo.screenCapture.ScreenCaptureActivity"
             android:label="demo/ScreenCapture">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.studyApp.demo.ScreenCapture.ScreenCaptureActivity">
+    tools:context="com.example.studyApp.demo.screenCapture.ScreenCaptureActivity">
 
     <WebView
         android:id="@+id/web_view"
@@ -24,25 +24,5 @@
             android:layout_width="200dp"
             android:layout_height="400dp" />
     </ScrollView>
-
-
-    <TextView
-        android:id="@+id/screen_capture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="screen_capture"
-        android:textSize="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/long_screen_capture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="start_screen_capture"
-        android:textSize="20dp"
-        app:layout_constraintLeft_toRightOf="@id/screen_capture"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
