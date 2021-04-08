@@ -1,4 +1,4 @@
-package com.example.studyApp.demo.ScreenCapture
+package com.example.studyApp.demo.screenCapture;
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -14,7 +14,7 @@ import com.example.studyApp.R
 import kotlinx.android.synthetic.main.activity_screen_capture.*
 
 class ScreenCaptureActivity : AppCompatActivity() {
-    lateinit var mScreenCaptureUtil: ScreenCaptureUtil
+    lateinit var mScreenCaptureUtil:ScreenCaptureUtil
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
@@ -45,26 +45,11 @@ class ScreenCaptureActivity : AppCompatActivity() {
         mScreenCaptureUtil.setScrollViewAndContentHeight(web_view)
         screen_capture.setOnClickListener {
             mScreenCaptureUtil.startScreenCapture()
-
-//         val bitmap=   ScreenShotUtil(this@ScreenCaptureActivity).startScreenShot()
-//            screen_capture_result.setImageBitmap(bitmap)
         }
-
-        var y =1000;
 
         long_screen_capture.setOnClickListener {
             screen_capture_result.visibility = View.GONE
             mScreenCaptureUtil.startLongScreenCapture()
-//            web_view.scrollTo(0,y)
-//
-//                    Log.d("gzpcanScrollVertically",web_view.canScrollVertically(-1).toString())
-//                    Log.d("gzpcanScrollVertically",web_view.canScrollVertically(1).toString())
-//                    Log.d("gzpcancontentHeight",web_view.contentHeight.toString())
-//            Log.d("gzpcancontentHeight",web_view.scrollY.toString())
-//
-//            y+=100
-
-
         }
     }
 

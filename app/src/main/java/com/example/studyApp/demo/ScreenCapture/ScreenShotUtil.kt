@@ -1,4 +1,4 @@
-package com.example.studyApp.demo.ScreenCapture
+package com.example.studyApp.demo.screenCapture;
 
 import android.app.Activity
 import android.graphics.Bitmap
