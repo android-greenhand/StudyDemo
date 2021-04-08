@@ -133,6 +133,22 @@ public class ScreenCaptureUtil {
     }
 
 
+//    public View findCanScrollVerticalView(View rootView){
+//        if(rootView.canScrollVertically(1)){
+//            return rootView;
+//        }
+//        if (rootView instanceof ViewGroup){
+//            ViewGroup viewGroup = (ViewGroup) rootView;
+//            int childCount = viewGroup.getChildCount();
+//            for (int i = 0; i < childCount; i++) {
+//                View child = viewGroup.getChildAt(i);
+//                findCanScrollVerticalView(child);
+//            }
+//        }
+//    }
+
+
+
     /**
      * 设置要滚动的View和其内容的高度
      *
@@ -147,6 +163,7 @@ public class ScreenCaptureUtil {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     mEndValue = dy;
+                    Log.d(TAG,"recyclerView:dy"+dy);
                 }
             });
 
@@ -157,6 +174,7 @@ public class ScreenCaptureUtil {
                 @Override
                 public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                     mEndValue = scrollY;
+
                 }
             });
         }
@@ -369,6 +387,8 @@ public class ScreenCaptureUtil {
 
     int mEndValue = 0;
     int startY = mEndValue;
+
+
     private void startScrollAnimation(final int scrollHeight) {
 
         //scrollHeight = 0,证明是第一次截图,那就无需滚动控件
@@ -407,6 +427,8 @@ public class ScreenCaptureUtil {
         scrollAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
+                Log.d(TAG+"event.getY()",String.valueOf(event.getY()));
+                Log.d(TAG+"event.getRawY()",String.valueOf(event.getRawY()));
                 event.setAction(MotionEvent.ACTION_UP);
                 mCanScrollView.dispatchTouchEvent(event);
                 event.recycle();
@@ -417,6 +439,8 @@ public class ScreenCaptureUtil {
             @Override
             public void onAnimationStart(Animator animation) {
                 startY = mEndValue;
+                Log.d(TAG+"event.getY()",String.valueOf(event.getY()));
+                Log.d(TAG+"event.getRawY()",String.valueOf(event.getRawY()));
             }
         });
         scrollAnimator.start();
