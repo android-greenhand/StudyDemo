@@ -99,8 +99,6 @@ public class ScreenCaptureUtil {
             ScreenShotUtilHelper.Companion.saveFile(newBitmap, "11.png");
             Log.d(TAG, "Bitmap大小:" + newBitmap.getByteCount() / 1024);
             onComplete();
-
-
         }
 
         @Override
@@ -240,20 +238,23 @@ public class ScreenCaptureUtil {
     }
 
 
-
-
     private void createSupernatantViewGroup() {
         mSupernatantView = new FrameLayout(mActivity);
         mSupernatantTextView = new TextView(mActivity);
         mSupernatantTextView.setText("点击屏幕，停止截屏");
-        mSupernatantTextView.setGravity(Gravity.CENTER | Gravity.LEFT);
-        mSupernatantTextView.setBackgroundColor(Color.argb(112, 0, 0, 0));
-        mSupernatantView.addView(mSupernatantTextView, FrameLayout.LayoutParams.MATCH_PARENT, 400);
+        mSupernatantTextView.setGravity(Gravity.BOTTOM | Gravity.LEFT);
+        mSupernatantTextView.setTextSize(20);
+       // mSupernatantTextView.scrollTo();
+        mSupernatantTextView.setBackgroundColor(Color.argb(50, 0, 0, 0));
+        mSupernatantView.addView(mSupernatantTextView, FrameLayout.LayoutParams.MATCH_PARENT, 300);
         mSupernatantView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 mClickScreenShotEnd = true;
+                if (mSupernatantTextView != null) {
+                    mSupernatantTextView.setText("正在合并截图");
+                }
             }
         });
         ViewGroup viewGroup = (ViewGroup) mActivity.getWindow().getDecorView();
@@ -261,9 +262,12 @@ public class ScreenCaptureUtil {
     }
 
     private void removeSupernatantViewGroup() {
-        mSupernatantView.setVisibility(View.GONE);
-        ViewGroup viewGroup = (ViewGroup) mActivity.getWindow().getDecorView();
-        viewGroup.removeView(mSupernatantView);
+        if (mSupernatantView != null) {
+            mSupernatantView.setVisibility(View.GONE);
+            ViewGroup viewGroup = (ViewGroup) mActivity.getWindow().getDecorView();
+            viewGroup.removeView(mSupernatantView);
+        }
+
     }
 
     private void preLongScreenshot() {
@@ -522,6 +526,10 @@ public class ScreenCaptureUtil {
                     } else {
                         mergeBitmap(resultBitmap, mTempBitmap, canvas, paint, mTempBitmap.getHeight() - mNavigationHeight - mScrollActualHeight, mTempBitmap.getHeight() - mNavigationHeight);
                     }
+                }
+
+                if (mSupernatantTextView != null) {
+                    mSupernatantTextView.setText("正在合并截图");
                 }
 
                 if (mTempBitmap == null) {

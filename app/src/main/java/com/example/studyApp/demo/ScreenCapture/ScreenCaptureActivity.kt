@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -43,14 +45,8 @@ class ScreenCaptureActivity : AppCompatActivity() {
                 })
 
         mScreenCaptureUtil.setScrollViewAndContentHeight(web_view)
-        screen_capture.setOnClickListener {
-            mScreenCaptureUtil.startScreenCapture()
-        }
 
-        long_screen_capture.setOnClickListener {
-            screen_capture_result.visibility = View.GONE
-            mScreenCaptureUtil.startLongScreenCapture()
-        }
+
     }
 
 
@@ -68,6 +64,20 @@ class ScreenCaptureActivity : AppCompatActivity() {
         mScreenCaptureUtil.onDestroy();
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.activity_screen_capture_menu, menu)
+        return true
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.screen_capture -> mScreenCaptureUtil.startScreenCapture()
+            R.id.long_screen_capture -> {
+                screen_capture_result.visibility = View.GONE
+                mScreenCaptureUtil.startLongScreenCapture()
+            }
+        }
+        return true
+    }
 
 }
