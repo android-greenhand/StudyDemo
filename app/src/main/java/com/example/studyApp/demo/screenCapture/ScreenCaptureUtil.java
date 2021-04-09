@@ -162,7 +162,7 @@ public class ScreenCaptureUtil {
             ((RecyclerView)mCanScrollView).addOnScrollListener(new RecyclerView.OnScrollListener(){
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    mEndValue = dy;
+                    mEndValue += dy;
                     Log.d(TAG,"recyclerView:dy"+dy);
                 }
             });
@@ -174,7 +174,6 @@ public class ScreenCaptureUtil {
                 @Override
                 public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                     mEndValue = scrollY;
-
                 }
             });
         }
