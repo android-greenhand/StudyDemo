@@ -1,7 +1,6 @@
 package com.example.studyApp.behavior
 
 import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
@@ -17,20 +16,18 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.animation.addListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.studyApp.R
 import com.example.studyApp.demo.screenCapture.ScreenCaptureUtil
-import com.example.studyApp.demo.screenCapture.ScreenShotUtilHelper
+import com.example.studyApp.demo.screenCapture.ScreenShotUtil
 import com.squareup.cycler.Recycler
 import com.squareup.cycler.toDataSource
 import kotlinx.android.synthetic.main.activity_behavior.*
-import kotlinx.android.synthetic.main.activity_screen_capture.*
 
 class BehaviorActivity() : AppCompatActivity() {
 
-    lateinit var mScreenCaptureUtil: ScreenCaptureUtil
+    lateinit var mScreenShotUtil: ScreenShotUtil
     private val data: List<ItemDataBean> = initData()
     private val recyclerView: RecyclerView by lazy {
         findViewById<RecyclerView>(R.id.recyclerview)
@@ -66,8 +63,8 @@ class BehaviorActivity() : AppCompatActivity() {
 
         recycler.update { data = this@BehaviorActivity.data.toDataSource() }
 
-        mScreenCaptureUtil = ScreenCaptureUtil(this,
-                object : ScreenCaptureUtil.ScreenCaptureResultListener {
+        mScreenShotUtil = ScreenShotUtil(this,
+                object : ScreenShotUtil.ScreenCaptureResultListener {
                     override fun onFail() {
                     }
 
@@ -77,13 +74,10 @@ class BehaviorActivity() : AppCompatActivity() {
                     }
                 })
 
-        mScreenCaptureUtil.setScrollViewAndContentHeight(recyclerView)
 
         auto_scroll_btn.setOnClickListener {
             // animation()
-           mScreenCaptureUtil.startLongScreenCapture()
-
-
+            mScreenShotUtil.startLongScreenCapture()
         }
 
     }
@@ -103,22 +97,23 @@ class BehaviorActivity() : AppCompatActivity() {
 
 
     fun animation() {
-        val anim = ValueAnimator.ofInt(0, -1000)
+        val viewHeight = 2000
+        val anim = ValueAnimator.ofInt(viewHeight, viewHeight / 2)
 
-        val viewHeight = recyclerView.height
+
 
 
         Log.d("gzp", viewHeight.toString())
         anim.duration = 1000;
         val event =
-                MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 500f, 0f, 0);
-        recyclerView.dispatchTouchEvent(event);
+                MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 500f, viewHeight.toFloat(), 0);
+        this.dispatchTouchEvent(event);
         anim.addUpdateListener { animation ->
             animation?.apply {
                 val y = this.animatedValue as Int
                 event.setLocation(500f, y.toFloat());
                 event.action = MotionEvent.ACTION_MOVE;
-                recyclerView.dispatchTouchEvent(event);
+                this@BehaviorActivity.dispatchTouchEvent(event);
                 Log.d("gzp", recyclerView.canScrollVertically(1).toString())
             }
         };
@@ -130,7 +125,7 @@ class BehaviorActivity() : AppCompatActivity() {
 
             override fun onAnimationEnd(animation: Animator?) {
                 event.action = MotionEvent.ACTION_UP;
-                recyclerView.dispatchTouchEvent(event);
+                this@BehaviorActivity.dispatchTouchEvent(event);
                 event.recycle()
             }
 
@@ -149,7 +144,7 @@ class BehaviorActivity() : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        mScreenCaptureUtil.onActivityResult(requestCode, resultCode, data)
+        mScreenShotUtil.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onDestroy() {
@@ -158,6 +153,6 @@ class BehaviorActivity() : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        mScreenCaptureUtil.onDestroy();
+        mScreenShotUtil.onDestroy();
     }
 }

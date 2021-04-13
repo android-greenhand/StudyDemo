@@ -44,7 +44,7 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="自动滑动"/>
+        android:text="长截图"/>
 
 
     <ScrollView

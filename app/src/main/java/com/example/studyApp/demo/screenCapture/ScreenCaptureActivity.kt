@@ -11,7 +11,7 @@ import com.example.studyApp.R
 import kotlinx.android.synthetic.main.activity_screen_capture.*
 
 class ScreenCaptureActivity : AppCompatActivity() {
-    lateinit var mScreenCaptureUtil: ScreenCaptureUtil
+    lateinit var mScreenShotUtil: ScreenShotUtil
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
@@ -27,8 +27,8 @@ class ScreenCaptureActivity : AppCompatActivity() {
         web_view.settings.javaScriptEnabled = true
         val url = "https://www.baidu.com"
         web_view.loadUrl(url)
-        mScreenCaptureUtil = ScreenCaptureUtil(this,
-                object : ScreenCaptureUtil.ScreenCaptureResultListener {
+        mScreenShotUtil = ScreenShotUtil(this,
+                object : ScreenShotUtil.ScreenCaptureResultListener {
                     override fun onFail() {
                     }
 
@@ -39,7 +39,7 @@ class ScreenCaptureActivity : AppCompatActivity() {
                     }
                 })
 
-        mScreenCaptureUtil.setScrollViewAndContentHeight(web_view)
+
 
 
     }
@@ -47,7 +47,7 @@ class ScreenCaptureActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        mScreenCaptureUtil.onActivityResult(requestCode, resultCode, data)
+        mScreenShotUtil.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onDestroy() {
@@ -56,7 +56,7 @@ class ScreenCaptureActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        mScreenCaptureUtil.onDestroy();
+        mScreenShotUtil.onDestroy();
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -66,10 +66,10 @@ class ScreenCaptureActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.screen_capture -> mScreenCaptureUtil.startScreenCapture()
+            R.id.screen_capture -> mScreenShotUtil.startScreenCapture()
             R.id.long_screen_capture -> {
                 screen_capture_result.visibility = View.GONE
-                mScreenCaptureUtil.startLongScreenCapture()
+                mScreenShotUtil.startLongScreenCapture()
             }
         }
         return true

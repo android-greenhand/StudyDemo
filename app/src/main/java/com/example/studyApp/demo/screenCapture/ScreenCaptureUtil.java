@@ -27,14 +27,15 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.InputDevice;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 
-import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.appbar.AppBarLayout;
+
 
 import java.nio.ByteBuffer;
 
@@ -58,7 +62,7 @@ public class ScreenCaptureUtil {
     private static final int SUCCESS_STATE = 1;       //成功状态
     private static final int SCROLL_STATE = 2;        //滚动状态
     private static final int REQUEST_MEDIA_PROJECTION = 1;
-    private static final int LONG_SCREEN_CAPTURE_MAX_COUNT = 10;
+    private static final int LONG_SCREEN_CAPTURE_MAX_COUNT = 5;
     public static final String TAG = ScreenCaptureUtil.class.getCanonicalName();
     private static final Object LOCK = new Object();
 
@@ -86,7 +90,6 @@ public class ScreenCaptureUtil {
 
     private FrameLayout mSupernatantView;
     private TextView mSupernatantTextView;
-
 
     volatile private boolean mClickScreenShotEnd = false;
     private int mScrollHeight;
@@ -130,55 +133,79 @@ public class ScreenCaptureUtil {
         mMediaProjectionManager = (MediaProjectionManager) activity.getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         mScreenCaptureResultListener = screenCaptureResultListener;
         mScreenCaptureHandler = new ScreenCaptureHandler(activity.getMainLooper());
+        mDecorView = (ViewGroup) mActivity.getWindow().getDecorView();
+        mContentView = mDecorView.findViewById(android.R.id.content);
     }
 
 
-//    public View findCanScrollVerticalView(View rootView){
-//        if(rootView.canScrollVertically(1)){
-//            return rootView;
-//        }
-//        if (rootView instanceof ViewGroup){
-//            ViewGroup viewGroup = (ViewGroup) rootView;
-//            int childCount = viewGroup.getChildCount();
-//            for (int i = 0; i < childCount; i++) {
-//                View child = viewGroup.getChildAt(i);
-//                findCanScrollVerticalView(child);
-//            }
-//        }
-//    }
+    public void findCanScrollVerticalView(View rootView){
+        if(rootView.canScrollVertically(1)){
+            Log.d(TAG+"findCanScrollVerticalView",rootView.getClass().toString());
+            Rect rect = new Rect();
+            rootView.getGlobalVisibleRect(rect);
+            int height =  rect.bottom - rect.top;
+            if(height>=mScreenHeight/3){
+                setScrollViewAndContentHeight(rootView);
+                Log.d(TAG+"setScrollListener",rootView.getClass().toString());
+            }
+        }
+        if (rootView instanceof ViewGroup){
+            ViewGroup viewGroup = (ViewGroup) rootView;
+            int childCount = viewGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = viewGroup.getChildAt(i);
+                setScrollListener(child);
+                findCanScrollVerticalView(child);
+            }
+        }
+
+    }
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    void setScrollListener(final View view){
+        if(view instanceof RecyclerView){
+            ((RecyclerView)view).addOnScrollListener(new RecyclerView.OnScrollListener(){
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    mEndValue += dy;
+                }
+            });
+
+            return;
+        }
+
+        if(view instanceof AppBarLayout){
+            ( (AppBarLayout)view).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    Log.d(TAG+"AppBarLayout",verticalOffset+"");
+                    mEndValue1 = -verticalOffset;
+                }
+            });
+            return;
+        }
+
+        view.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                mEndValue3 = scrollY;
+                Log.d(TAG+"other View",view.getClass().toString());
+            }
+        });
+
+    }
+
+    private ViewGroup mDecorView;
     /**
      * 设置要滚动的View和其内容的高度
      *
      * @param view
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public void setScrollViewAndContentHeight(View view) {
+
+    private void setScrollViewAndContentHeight(View view) {
         this.mCanScrollView = view;
-
-        if(view instanceof RecyclerView){
-            ((RecyclerView)mCanScrollView).addOnScrollListener(new RecyclerView.OnScrollListener(){
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    mEndValue += dy;
-                    Log.d(TAG,"recyclerView:dy"+dy);
-                }
-            });
-
-        }
-
-        if(view instanceof WebView){
-            mCanScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    mEndValue = scrollY;
-                }
-            });
-        }
-
-
     }
 
     public void startScreenCapture() {
@@ -193,6 +220,7 @@ public class ScreenCaptureUtil {
     }
 
     public void startLongScreenCapture() {
+        findCanScrollVerticalView(mDecorView);
         if (mCanScrollView == null) {
             Toast.makeText(mActivity, "请先设置长截图要滚动的View", Toast.LENGTH_SHORT).show();
             mScreenCaptureListener.onFail();
@@ -291,19 +319,25 @@ public class ScreenCaptureUtil {
         mSupernatantTextView.setText("点击屏幕，停止截屏");
         mSupernatantTextView.setGravity(Gravity.BOTTOM | Gravity.LEFT);
         mSupernatantTextView.setTextSize(20);
-       // mSupernatantTextView.scrollTo();
         mSupernatantTextView.setBackgroundColor(Color.argb(50, 0, 0, 0));
         mSupernatantView.addView(mSupernatantTextView, FrameLayout.LayoutParams.MATCH_PARENT, 300);
-        mSupernatantView.setOnClickListener(new View.OnClickListener() {
 
+        mSupernatantView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                mClickScreenShotEnd = true;
-                if (mSupernatantTextView != null) {
-                    mSupernatantTextView.setText("正在合并截图");
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getSource() == InputDevice.SOURCE_ANY){
+                    return false;
+                }else{
+                    mClickScreenShotEnd = true;
+                    if (mSupernatantTextView != null) {
+                        mSupernatantTextView.setText("正在合并截图");
+                    }
                 }
+                return true;
             }
         });
+
+
         ViewGroup viewGroup = (ViewGroup) mActivity.getWindow().getDecorView();
         viewGroup.addView(mSupernatantView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
     }
@@ -318,6 +352,7 @@ public class ScreenCaptureUtil {
     }
 
     private void preLongScreenshot() {
+
         mNavigationHeight = ScreenShotUtilHelper.Companion.getNavigationHeight(mActivity);
         mStatusBarHeight = ScreenShotUtilHelper.Companion.getStatusBarHeight(mActivity);
         mScrollHeight = mCanScrollView.getHeight() / 2;
@@ -345,49 +380,16 @@ public class ScreenCaptureUtil {
     volatile boolean isScrollBottom = false;
     volatile int mScrollActualHeight = 0;
 
-    private void startScrollAnimation1(final int scrollHeight) {
-        final int lastScrollHeight = mCanScrollView.getScrollY();
-        //scrollHeight = 0,证明是第一次截图,那就无需滚动控件
-        if (scrollHeight <= 0) {
-            startScreenCapture();
-            return;
-        }
-        if (mSupernatantView == null) {
-            createSupernatantViewGroup();
-        }
-        ValueAnimator scrollAnimator = ValueAnimator.ofInt(0, scrollHeight);
-        scrollAnimator.setInterpolator(new LinearInterpolator());
-        scrollAnimator.setDuration(1000);
-        scrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                if (!mClickScreenShotEnd && mCanScrollView.canScrollVertically(1)) {
-                    mCanScrollView.scrollTo(0, value + lastScrollHeight);
-                } else {
-                    isScrollBottom = true;
-                }
-            }
-        });
-        scrollAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mScrollActualHeight = mCanScrollView.getScrollY() - lastScrollHeight;
-                startScreenCapture();
-            }
-
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-        });
-        scrollAnimator.start();
-    }
 
     int mEndValue = 0;
+    int mEndValue1 = 0;
+    int mEndValue2 = 0;
+    int mEndValue3 = 0;
     int startY = mEndValue;
 
 
+     ViewGroup mContentView ;
+    
     private void startScrollAnimation(final int scrollHeight) {
 
         //scrollHeight = 0,证明是第一次截图,那就无需滚动控件
@@ -405,7 +407,9 @@ public class ScreenCaptureUtil {
 
         final MotionEvent event =
                 MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, x, y, 0);
-        mCanScrollView.dispatchTouchEvent(event);
+        event.setSource(InputDevice.SOURCE_ANY);
+
+        mActivity.dispatchTouchEvent(event);
 
         ValueAnimator scrollAnimator = ValueAnimator.ofInt(y,y/2);
         scrollAnimator.setInterpolator(new LinearInterpolator());
@@ -417,33 +421,36 @@ public class ScreenCaptureUtil {
                 if (!mClickScreenShotEnd && mCanScrollView.canScrollVertically(1)) {
                     event.setLocation(x,value);
                     event.setAction(MotionEvent.ACTION_MOVE);
-                    mCanScrollView.dispatchTouchEvent(event);
+                    mActivity.dispatchTouchEvent(event);
                 } else {
                     isScrollBottom = true;
                 }
             }
         });
+        
         scrollAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                Log.d(TAG+"event.getY()",String.valueOf(event.getY()));
-                Log.d(TAG+"event.getRawY()",String.valueOf(event.getRawY()));
+                Log.d(TAG+"onAnimationEnd:\t   event.getY:",String.valueOf(event.getY()));
+                Log.d(TAG+"onAnimationEnd:\t  event.getRawY:",String.valueOf(event.getRawY()));
+                Log.d(TAG+"onAnimationEnd:\t  motionEventDiff:",String.valueOf(y-event.getY()));
                 event.setAction(MotionEvent.ACTION_UP);
-                mCanScrollView.dispatchTouchEvent(event);
+                mActivity.dispatchTouchEvent(event);
                 event.recycle();
-                mScrollActualHeight = mEndValue - startY ;
+                mScrollActualHeight =  mEndValue+ mEndValue1+ mEndValue2+ mEndValue3 - startY;
+                Log.d(TAG+"onAnimationEnd:\t  mScrollActualHeight:",String.valueOf(mScrollActualHeight));
                 startScreenCapture();
             }
 
             @Override
             public void onAnimationStart(Animator animation) {
-                startY = mEndValue;
-                Log.d(TAG+"event.getY()",String.valueOf(event.getY()));
-                Log.d(TAG+"event.getRawY()",String.valueOf(event.getRawY()));
+              startY = mEndValue+ mEndValue1+ mEndValue2+ mEndValue3;
+                Log.d(TAG+"onAnimationStart:\t event.getY:",String.valueOf(event.getY()));
+                Log.d(TAG+"onAnimationStart:\t event.getRawY:",String.valueOf(event.getRawY()));
+                Log.d(TAG+"onAnimationStart:\t startY:",String.valueOf(startY));
             }
         });
         scrollAnimator.start();
-
     }
 
 
@@ -617,6 +624,8 @@ public class ScreenCaptureUtil {
                 for (int i = 0; i < LONG_SCREEN_CAPTURE_MAX_COUNT; i++) {
                     // 如果销毁 点击停止 滚动到底部 则结束
                     if (isDestroy || mClickScreenShotEnd || isScrollBottom) {
+                        Log.d(TAG,"截屏任务异常退出：isDestroy:"+isDestroy+"\t mClickScreenShotEnd:"+mClickScreenShotEnd
+                        +"\t isScrollBottom:"+isScrollBottom);
                         break;
                     }
                     if (i == 0) {
