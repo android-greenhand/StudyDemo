@@ -4,8 +4,13 @@ import android.animation.ValueAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
+import android.view.animation.TranslateAnimation
 import com.example.studyApp.R
+import kotlinx.android.synthetic.main.activity_value_animator.*
 
 class ValueAnimatorActivity : AppCompatActivity() {
     companion object {
@@ -77,6 +82,15 @@ class ValueAnimatorActivity : AppCompatActivity() {
         }
 
 
-
+        /**
+         * Bug验证
+         */
+        val out: Animation = TranslateAnimation(0f, 0f, 200f, (-100).toFloat())
+        out.duration = 1000
+        out.interpolator = AccelerateInterpolator()
+        activity_value_animator_button.setOnClickListener {
+            activity_value_animator_text.visibility = View.GONE
+            activity_value_animator_text.startAnimation(out)
+        }
     }
 }
