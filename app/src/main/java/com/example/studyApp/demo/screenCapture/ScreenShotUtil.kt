@@ -49,7 +49,7 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
 
         private const val REQUEST_MEDIA_PROJECTION = 1
         private const val LONG_SCREEN_CAPTURE_MAX_COUNT = 5
-        private val TAG = ScreenCaptureUtil::class.java.canonicalName
+        public val TAG = ScreenShotUtil::class.java.canonicalName
         private val LOCK = Object()
     }
 
@@ -60,7 +60,7 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
     var mScrollActualHeight = 0
 
 
-    val mEndValueArray = arrayListOf<Int>(0,0,0)
+    val mEndValueArray = mutableListOf<Int>()
     var startY = 0
     private var mResultCode = 0
     private var mResultData: Intent? = null
@@ -141,6 +141,7 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
     }
 
 
+    var mChildCount = 0
     private fun findCanScrollVerticalView(rootView: View) {
         if (rootView.canScrollVertically(1)) {
             Log.d(TAG + "CanScrollVerticalView", rootView.javaClass.toString())
@@ -156,18 +157,20 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
             val childCount = rootView.childCount
             for (i in 0 until childCount) {
                 val child = rootView.getChildAt(i)
-                setScrollListener(child)
+                mEndValueArray.add(0)
+                setScrollListener(child,mChildCount)
+                mChildCount++
                 findCanScrollVerticalView(child)
             }
         }
     }
 
 
-    private fun setScrollListener(view: View) {
+    private fun setScrollListener(view: View,childCount :Int) {
         if (view is RecyclerView) {
             view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    mEndValueArray[0] += dy
+                    mEndValueArray[childCount] += dy
                 }
             })
             return
@@ -175,12 +178,12 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
         if (view is AppBarLayout) {
             view.addOnOffsetChangedListener(OnOffsetChangedListener { _, verticalOffset ->
                 Log.d(TAG + "AppBarLayout", verticalOffset.toString() + "")
-                mEndValueArray[1] = -verticalOffset
+                mEndValueArray[childCount] = -verticalOffset
             })
             return
         }
         view.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            mEndValueArray[2] = scrollY
+            mEndValueArray[childCount] = scrollY
             Log.d(TAG + "other View", view.javaClass.toString())
         }
     }
@@ -233,24 +236,19 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
                 mScreenWidth, mScreenHeight, mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                 mImageReader?.surface, null, null)
     }
-
-
+    
     private val mImageTransformBitmap = Runnable {
         try {
-            mImageReader?.acquireLatestImage().use { image ->
-                if (image != null) {
-                    val bitmap = imageToBitmap(image)
-                    if (bitmap != null) {
-                        if (mIsLongScreenshot) {
-                            synchronized(LOCK) {
-                                mTempBitmap = bitmap
-                                LOCK.notify()
-                            }
-                        } else {
-                            mScreenCaptureListener.onSuccess(bitmap, false)
+            mImageReader?.acquireLatestImage().apply {
+                val bitmap = imageToBitmap(this)
+                if (bitmap != null) {
+                    if (mIsLongScreenshot) {
+                        synchronized(LOCK) {
+                            mTempBitmap = bitmap
+                            LOCK.notify()
                         }
                     } else {
-                        mScreenCaptureListener.onFail()
+                        mScreenCaptureListener.onSuccess(bitmap, false)
                     }
                 } else {
                     mScreenCaptureListener.onFail()
@@ -270,7 +268,6 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
                 it.close()
                 mImageReader = null
             }
-
         }
     }
 

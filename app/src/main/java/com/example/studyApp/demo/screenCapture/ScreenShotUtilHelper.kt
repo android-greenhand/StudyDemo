@@ -25,7 +25,7 @@ class ScreenShotUtilHelper {
          */
         fun compressBitmap(bitmap: Bitmap?): Bitmap? {
             if (bitmap != null) {
-                Log.d(ScreenCaptureUtil.TAG, "压缩前的大小：" + bitmap.byteCount / 1024)
+                Log.d(ScreenShotUtil.TAG, "压缩前的大小：" + bitmap.byteCount / 1024)
                 val options = BitmapFactory.Options()
                 options.inSampleSize = 1
                 val byteArrayOutputStream = ByteArrayOutputStream()
@@ -33,7 +33,7 @@ class ScreenShotUtilHelper {
                 val newBitmap = BitmapFactory.decodeStream(ByteArrayInputStream(byteArrayOutputStream.toByteArray()), null, options)
                 bitmap.recycle()
                 if (newBitmap != null) {
-                    Log.d(ScreenCaptureUtil.TAG, "压缩后的大小：" + newBitmap.byteCount / 1024)
+                    Log.d(ScreenShotUtil.TAG, "压缩后的大小：" + newBitmap.byteCount / 1024)
                     return newBitmap
                 }
             }
