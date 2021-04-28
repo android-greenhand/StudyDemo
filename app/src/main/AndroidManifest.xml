@@ -14,7 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".animation.ValueAnimatorActivity"
+        <activity android:name=".customView.test.TestActivity"
+            android:label="CustomView/FlowLayout">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".animation.ValueAnimatorActivity"
             android:label="Animation/ValueAnimator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,7 +59,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".comment.CommentActivity"
+            android:name=".customView.comment.CommentActivity"
             android:label="仿抖音评论布局">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -121,7 +130,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".customView.FlowLayoutActivity"
+            android:name=".customView.flowLayout.FlowLayoutActivity"
             android:label="CustomView/FlowLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

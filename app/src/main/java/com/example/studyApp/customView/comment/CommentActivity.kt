@@ -1,9 +1,7 @@
-package com.example.studyApp.comment
+package com.example.studyApp.customView.comment
 
-import android.app.ProgressDialog.show
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.studyApp.R

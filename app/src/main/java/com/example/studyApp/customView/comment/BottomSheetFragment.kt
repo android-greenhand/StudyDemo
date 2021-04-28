@@ -1,4 +1,4 @@
-package com.example.studyApp.comment
+package com.example.studyApp.customView.comment
 
 import android.app.Dialog
 import android.content.Context
@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

@@ -1,4 +1,4 @@
-package com.example.studyApp.customView;
+package com.example.studyApp.customView.flowLayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;

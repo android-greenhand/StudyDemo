@@ -1,9 +1,6 @@
-package com.example.studyApp.customView;
+package com.example.studyApp.customView.flowLayout;
 
 import android.os.Bundle;
-import android.os.Looper;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 

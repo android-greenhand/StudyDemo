@@ -1,4 +1,4 @@
-package com.example.studyApp.comment
+package com.example.studyApp.customView.comment
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
