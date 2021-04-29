@@ -1,6 +1,7 @@
 package com.example.studyApp.customView.test
 
 import android.animation.ObjectAnimator
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -12,6 +13,9 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
 
+        gradient_text.text = "你好世界"
+        gradient_text.mAboveTextColor = Color.RED
+        gradient_text.mBelowTextColor = Color.CYAN
         Handler().postDelayed({
             startViewAnimation()
         }, 1000)
