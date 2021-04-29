@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".customView.test.TestActivity"
-            android:label="CustomView/FlowLayout">
+            android:label="CustomView/理论实践/TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,7 +60,7 @@
         </activity>
         <activity
             android:name=".customView.comment.CommentActivity"
-            android:label="仿抖音评论布局">
+            android:label="CustomView/仿抖音评论布局">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
