@@ -25,7 +25,7 @@ class ScreenCaptureActivity : AppCompatActivity() {
             }
         }
         web_view.settings.javaScriptEnabled = true
-        val url = "https://www.baidu.com"
+        val url = "http://www.baidu.com"
         web_view.loadUrl(url)
         mScreenShotUtil = ScreenShotUtil(this,
                 object : ScreenShotUtil.ScreenCaptureResultListener {

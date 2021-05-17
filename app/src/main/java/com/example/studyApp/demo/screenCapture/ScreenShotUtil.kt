@@ -118,6 +118,7 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
     private val mScreenCaptureListener: ScreenshotListener = object : ScreenshotListener {
         override fun onSuccess(bitmap: Bitmap, isLongScreenshot: Boolean) {
             removeSupernatantViewGroup()
+            removeAllScrollListener()
             Toast.makeText(mActivity, "截屏成功", Toast.LENGTH_SHORT).show()
             val newBitmap = compressBitmap(bitmap)
             newBitmap?.let {
@@ -138,6 +139,10 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
             mScreenCaptureResultListener.onFail()
             onComplete()
         }
+    }
+
+    private fun removeAllScrollListener() {
+
     }
 
 
@@ -420,7 +425,7 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
         mBitmapActualHeight += height
     }
 
-    private inner class ScreenCaptureHandler(looper: Looper?) : Handler(looper) {
+    private inner class ScreenCaptureHandler(looper: Looper?) : Handler(looper!!) {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 SUCCESS_STATE -> {

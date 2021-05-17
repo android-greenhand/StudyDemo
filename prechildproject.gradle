@@ -1,0 +1,14 @@
+println "APP子项目配置开始---"
+
+afterEvaluate {
+    println "APP子项目afterEvaluate回调..."
+}
+
+task appTest {
+    println "APP子项目里任务配置---"
+    doLast {
+        println "执行子项目任务..."
+    }
+}
+
+println "APP子项目配置结束---"

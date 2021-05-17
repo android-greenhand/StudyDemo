@@ -1,0 +1,119 @@
+task dell{
+    println("hello world")
+}
+
+
+File bd = getBuildDir()
+println "buildDir = ${bd.getAbsolutePath()}"
+
+//获取Project的名字
+String name = getName()
+println "project name = $name"
+
+//设置Project的描述信息
+setDescription "这是一个测试案例"
+String desc = getDescription()
+println "project description = $desc"
+
+//获取Project的路径
+String path = getPath();
+println "project path = $path"
+
+class VersionInfo {
+    String version
+    boolean release
+
+    VersionInfo(String v, boolean release) {
+        version = v
+        this.release = release
+    }
+
+    String toString() {
+        return "V-${version}-${release ? 'release' : 'debug'}"
+    }
+}
+//设置Project的版本号，参数可以是任何对象，gradle内部会使用 toString() 方法返回的值
+setVersion(new VersionInfo("1.0.0", true))
+println("project version = ${getVersion()}")
+
+//设置Project的分组
+setGroup "TestGroup"
+println("project group = ${getGroup()}")
+
+
+println"${userName}"
+
+class OuterExt {
+
+    String outerName
+    String msg
+    InnerExt innerExt = new InnerExt()
+
+    void outerName(String name) {
+        outerName = name
+    }
+
+    void msg(String msg) {
+        this.msg = msg
+    }
+
+    //创建内部Extension，名称为方法名 inner
+    void inner(Action<InnerExt> action) {
+        action.execute(inner)
+    }
+
+    //创建内部Extension，名称为方法名 inner
+    void inner(Closure c) {
+        org.gradle.util.ConfigureUtil.configure(c, innerExt)
+    }
+
+    String toString() {
+        return "OuterExt[ name = ${outerName}, msg = ${msg}] " + innerExt
+    }
+
+}
+
+
+class InnerExt {
+
+    String innerName
+    String msg
+
+    void innerName(String name) {
+        innerName = name
+    }
+
+    void msg(String msg) {
+        this.msg = msg
+    }
+
+    String toString() {
+        return "InnerExt[ name = ${innerName}, msg = ${msg}]"
+    }
+
+}
+
+def outExt = getExtensions().create("outer", OuterExt)
+
+outer {
+
+    outerName "outer"
+    msg "this is a outer message."
+
+    inner {
+        innerName "inner"
+        msg "This is a inner message."
+    }
+
+}
+
+task testExt {
+    println outExt
+}
+
+
+task helloWorld{
+    doLast {
+        print "hello World"
+    }
+}

@@ -11,6 +11,37 @@ import android.view.View
 import java.util.*
 
 object GreyEffect : Application.ActivityLifecycleCallbacks {
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        currentActivity = activity
+
+        if (activity != null && greyEffect) {
+            applyGreyEffect(activity, greyEffect)
+        }
+    }
+
+    override fun onActivityStarted(activity: Activity) {
+    }
+
+    override fun onActivityResumed(activity: Activity) {
+        if (activity != null) {
+            currentActivity = activity
+            applyGreyEffect(activity, greyEffect)
+        }
+    }
+
+    override fun onActivityPaused(activity: Activity) {
+    }
+
+    override fun onActivityStopped(activity: Activity) {
+    }
+
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+    }
+
+    override fun onActivityDestroyed(activity: Activity) {
+        currentActivity = null
+
+    }
     private const val KEY_GREY_CONFIG = "key:grey_config"
 
     private var greyEffect: Boolean = false
@@ -22,41 +53,6 @@ object GreyEffect : Application.ActivityLifecycleCallbacks {
     private val activityPaintMap = WeakHashMap<Activity, GreyEffectInfo>()
 
     private var currentActivity: Activity? = null
-
-    override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-        currentActivity = activity
-
-        if (activity != null && greyEffect) {
-            applyGreyEffect(activity, greyEffect)
-        }
-    }
-
-    override fun onActivityStarted(activity: Activity?) {
-
-    }
-
-    override fun onActivityResumed(activity: Activity?) {
-        if (activity != null) {
-            currentActivity = activity
-            applyGreyEffect(activity, greyEffect)
-        }
-    }
-
-    override fun onActivityPaused(activity: Activity?) {
-
-    }
-
-    override fun onActivityStopped(activity: Activity?) {
-
-    }
-
-    override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
-
-    }
-
-    override fun onActivityDestroyed(activity: Activity?) {
-        currentActivity = null
-    }
 
     private fun applyGreyEffect(activity: Activity?, greyEffect: Boolean) {
         if (activity == null) {

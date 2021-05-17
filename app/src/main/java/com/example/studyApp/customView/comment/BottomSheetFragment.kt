@@ -2,6 +2,7 @@ package com.example.studyApp.customView.comment
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.studyApp.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.jetbrains.annotations.Nullable
@@ -29,6 +31,9 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var editText: EditText
     private lateinit var editTextBtn: TextView
+    private val mCommentActivityViewModel by lazy{
+        ViewModelProvider(activity as CommentActivity).get(CommentActivityViewModel::class.java)
+    }
 
     private val mInputManager: InputMethodManager? by lazy {
         activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -36,7 +41,8 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.DialogTheme) //给dialog设置主题为透明背景 不然会有默认的白色背景
+      //  setStyle(DialogFragment.STYLE_NO_FRAME, R.style.DialogTheme) //给dialog设置主题为透明背景 不然会有默认的白色背景
+        mCommentActivityViewModel.mCommentStatus.value = true
     }
 
     @Nullable
@@ -72,28 +78,44 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             bottomSheetDialog.behavior.isHideable = false //禁止下拉取消弹框
             bottomSheetDialog.behavior.peekHeight = view.measuredHeight //让dialog的内容显示完整
             bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetDialog.behavior.addBottomSheetCallback(object :
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    when(newState){
+                        STATE_COLLAPSED -> dismiss()
+                    }
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                }
+
+            })
         }
+
     }
 
     override fun onStop() {
         super.onStop()
         // onDestroy() 有可能延迟执行
-        if (activity != null) {
-            ViewModelProvider(activity!!, ViewModelProvider.NewInstanceFactory())
-                    .get(CommentActivityViewModel::class.java)
-                    .mCommentStatus.value = true
-        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         hideSoftInputFromWindow(editText)
+        mCommentActivityViewModel.mCommentStatus.value = false
+
     }
 
     override fun setupDialog(dialog: Dialog, style: Int) {
-        dialog.setCanceledOnTouchOutside(true) //设置点击外部可消失
+        dialog.setCanceledOnTouchOutside(false) //设置点击外部可消失
         val window: Window? = dialog.window
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING) //设置使软键盘弹出的时候dialog不会被顶起
+    }
+
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+
     }
 
     private fun showSoftInputFromWindow(editText: EditText?) {

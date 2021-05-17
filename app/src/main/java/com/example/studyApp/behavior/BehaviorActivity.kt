@@ -38,7 +38,11 @@ class BehaviorActivity() : AppCompatActivity() {
 
         setContentView(R.layout.activity_behavior)
 
-        recyclerView?.apply { this.layoutManager = LinearLayoutManager(context) }
+        recyclerView.apply {
+            this.layoutManager = LinearLayoutManager(context)
+            addItemDecoration(this)
+        }
+
         recycler = Recycler.adopt(recyclerView) {
             row<ItemDataBean, TextView> {
                 create { context: Context ->
@@ -55,6 +59,7 @@ class BehaviorActivity() : AppCompatActivity() {
                         setBackgroundColor(Color.argb(alpha, red, green, blue))
 
                     }
+
                     bind { itemDataBean -> view.text = itemDataBean.string }
                 }
             }
@@ -86,7 +91,7 @@ class BehaviorActivity() : AppCompatActivity() {
         return super.onTouchEvent(event)
     }
 
-    fun initData(): List<ItemDataBean> {
+    private fun initData(): List<ItemDataBean> {
         val list = ArrayList<ItemDataBean>();
 
         for (i in 1..100) {
@@ -95,14 +100,9 @@ class BehaviorActivity() : AppCompatActivity() {
         return list
     }
 
-
     fun animation() {
         val viewHeight = 2000
         val anim = ValueAnimator.ofInt(viewHeight, viewHeight / 2)
-
-
-
-
         Log.d("gzp", viewHeight.toString())
         anim.duration = 1000;
         val event =
@@ -154,5 +154,16 @@ class BehaviorActivity() : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         mScreenShotUtil.onDestroy();
+    }
+
+
+    /**
+     *
+     *添加ItemDecoration
+     *
+     */
+
+    private fun addItemDecoration(view:RecyclerView){
+        view.addItemDecoration(CustomItemDecoration())
     }
 }
