@@ -537,6 +537,9 @@ class ScreenShotUtil(val mActivity: Activity, val mScreenCaptureResultListener: 
                 mScreenCaptureListener.onFail()
                 return
             }
+
+
+
             mScreenCaptureHandler.postDelayed(mImageTransformBitmap, 1000)
         }
     }

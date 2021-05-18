@@ -149,7 +149,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
      * 得到屏幕的高
      */
     private fun getScreenHeight(context: Context?): Int {
-        val wm = context!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val wm = requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
         return wm.defaultDisplay.height
     }
 
