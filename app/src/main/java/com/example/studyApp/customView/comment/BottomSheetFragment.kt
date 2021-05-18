@@ -11,7 +11,9 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.compose.ui.graphics.Color
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,7 +43,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-      //  setStyle(DialogFragment.STYLE_NO_FRAME, R.style.DialogTheme) //给dialog设置主题为透明背景 不然会有默认的白色背景
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.DialogTheme) //给dialog设置主题为透明背景 不然会有默认的白色背景
         mCommentActivityViewModel.mCommentStatus.value = true
     }
 
@@ -93,6 +95,16 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         }
 
     }
+
+//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+//        val dialog =  BottomSheetDialog(requireContext(), getTheme())
+//        dialog.setContentView(TextView(context).apply {
+//            text = "BottomSheetDialog"
+//            val lp = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,500)
+//            this.layoutParams = lp
+//        })
+//        return dialog
+//    }
 
     override fun onStop() {
         super.onStop()

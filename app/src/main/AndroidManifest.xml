@@ -15,7 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".customView.test.TestActivity"
+        <activity
+            android:name=".compose.ComposeMainActivity"
+            android:exported="true"
+            android:label="compose/ComposeMainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".customView.test.TestActivity"
             android:label="CustomView/理论实践/TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
