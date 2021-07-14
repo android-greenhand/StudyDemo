@@ -3,6 +3,7 @@ package com.example.studyApp.StatusBar;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -32,6 +33,8 @@ public class CustomActivityLifecycleCallback implements Application.ActivityLife
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
+
+     //   Log.d("gzpActivity",activity.getClass().getName());
      //   StatusBarUtils.toggleStatusBar(activity);
     }
 

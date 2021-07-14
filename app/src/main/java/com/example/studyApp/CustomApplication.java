@@ -1,6 +1,7 @@
 package com.example.studyApp;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.example.studyApp.StatusBar.CustomActivityLifecycleCallback;
 import com.example.studyApp.demo.other.GreyEffect;
@@ -15,4 +16,10 @@ public class CustomApplication extends Application {
         registerActivityLifecycleCallbacks(GreyEffect.INSTANCE);
     }
 
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        PrivacyInstrumentation.attach(this);
+    }
 }
