@@ -34,7 +34,7 @@ import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 
 /**
  *
- * author: 
+ * author:
  * data: 2021/3/24
  * desc:
  *
