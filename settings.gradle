@@ -27,5 +27,5 @@ gradle.buildFinished {
 }
 
 include ":app"
-include ':app'
+
 rootProject.name = "StudyDemo"
