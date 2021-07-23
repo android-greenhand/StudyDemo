@@ -7,10 +7,15 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.studyApp.LaunchActivity;
+import com.example.studyApp.main.MainActivity;
+
 
 public class CustomActivityLifecycleCallback implements Application.ActivityLifecycleCallbacks {
     String[] mActivityS = {
-            StatusBarActivity.class.getName()
+            StatusBarActivity.class.getName(),
+            LaunchActivity.class.getName(),
+            MainActivity.class.getName()
     };
 
     private CustomActivityLifecycleCallback() {
@@ -33,9 +38,8 @@ public class CustomActivityLifecycleCallback implements Application.ActivityLife
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
-
-     //   Log.d("gzpActivity",activity.getClass().getName());
-     //   StatusBarUtils.toggleStatusBar(activity);
+        Log.d("gzpActivity",activity.getClass().getName());
+        StatusBarUtils.toggleStatusBar(activity);
     }
 
     @Override

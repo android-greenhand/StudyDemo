@@ -6,18 +6,21 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.example.studyApp.R;
+import com.example.studyApp.StatusBar.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+//TODO gzp  1.全屏 2.去掉状态栏
 public class MainActivity extends AppCompatActivity {
 
     public final static String INTENT_PATH_KEY = "com.example";
@@ -29,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         //根据Intent得到到那一级目录展示
         String path = getIntent().getStringExtra(INTENT_PATH_KEY);
-
-        getSupportActionBar().setTitle(TextUtils.isEmpty(path)? "主界面":path) ;
+        ((TextView) findViewById(R.id.main_activity_title_text)).setText(TextUtils.isEmpty(path) ? "主界面" : path);
+        //    getSupportActionBar().setTitle(TextUtils.isEmpty(path)? "主界面":path) ;
 
 
         RecycleViewDelegate recycleViewDelegate = new RecycleViewDelegate(findViewById(R.id.main_recycle_view));
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     String ActivityName = labelPath[len];
                     Intent intent1 = new Intent();
                     intent1.setClassName(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name);
-                    activityBeans.add(new ActivityBean(ActivityName, intent1,false));
+                    activityBeans.add(new ActivityBean(ActivityName, intent1, false));
                     stringSet.add(ActivityName);
 
                     /**
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     String s = TextUtils.isEmpty(path) ? labelPath[0] : prefixWithSlash + labelPath[len];
                     // 储存在intent
                     intent1.putExtra(INTENT_PATH_KEY, s);
-                    activityBeans.add(new ActivityBean(labelPath[len], intent1,true));
+                    activityBeans.add(new ActivityBean(labelPath[len], intent1, true));
                     stringSet.add(labelPath[len]);
                 }
             }

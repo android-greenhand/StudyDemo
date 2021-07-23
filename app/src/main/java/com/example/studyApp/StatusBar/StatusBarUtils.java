@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -557,6 +558,7 @@ public class StatusBarUtils {
         }
 
         if (statusBarSupportChange(activity) && needStatusBarColorTran(activity)) {
+            Log.d(TAG,activity.getClass().getName()+"状态栏已被修改成全屏");
             transparencyBar(activity); // Activity全屏显示 状态栏为透明
             statusBarLightModeWithFullScreen(activity, true);  //状态栏字体为黑色
             setStatusBarColor(activity, R.color.transparent);

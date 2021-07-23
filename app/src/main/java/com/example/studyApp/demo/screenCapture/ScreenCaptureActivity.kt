@@ -2,12 +2,16 @@ package com.example.studyApp.demo.screenCapture
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.example.studyApp.R
+import com.hd.viewcapture.CaptureManager
+import com.hd.viewcapture.ViewCapture
 import kotlinx.android.synthetic.main.activity_screen_capture.*
 
 class ScreenCaptureActivity : AppCompatActivity() {
@@ -16,7 +20,12 @@ class ScreenCaptureActivity : AppCompatActivity() {
 
 
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            WebView.enableSlowWholeDocumentDraw()
+        }
         setContentView(R.layout.activity_screen_capture)
+
+
 
         web_view.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
@@ -24,6 +33,7 @@ class ScreenCaptureActivity : AppCompatActivity() {
                 return true
             }
         }
+
         web_view.settings.javaScriptEnabled = true
         val url = "http://www.baidu.com"
         web_view.loadUrl(url)
@@ -64,15 +74,32 @@ class ScreenCaptureActivity : AppCompatActivity() {
         return true
     }
 
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.screen_capture -> mScreenShotUtil.startScreenCapture()
+//            R.id.long_screen_capture -> {
+//                screen_capture_result.visibility = View.GONE
+//                mScreenShotUtil.startLongScreenCapture()
+//            }
+//        }
+//        return true
+//    }
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.screen_capture -> mScreenShotUtil.startScreenCapture()
             R.id.long_screen_capture -> {
-                screen_capture_result.visibility = View.GONE
-                mScreenShotUtil.startLongScreenCapture()
+                ViewCapture.with(web_view)
+                    .asJPG()
+                    .setOnSaveResultListener { _, _, uri ->
+                        screen_capture_result.visibility = View.VISIBLE
+                        screen_capture_result.setImageURI(uri)
+                    }.save()
+
+
             }
         }
         return true
     }
-
 }

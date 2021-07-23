@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">#5200B37A</item>
+        <item name="colorPrimaryDark">#5200B37A</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -25,5 +25,20 @@
         <item name="android:backgroundDimEnabled">false</item><!--是否开启dlg显示时后面的灰暗背景，false表示不开启 -->
         <item name="android:backgroundDimAmount">0.7</item> <!-- dlg显示时灰暗背景的灰暗值,0.0是无灰暗背景，它的优先级低于backgroundDimEnabled -->
     </style>
+
+
+
+    <style name="LaunchActivityTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="windowActionBar">false</item> <!--如果要取消标题栏 -->
+        <item name="android:windowBackground">@mipmap/launch_bg</item>
+    </style>
+
+
+<!--    <style name="BaseActivityTheme" parent="Theme.MaterialComponents.Light.NoActionBar">-->
+<!--        <item name="colorPrimary">#f6f6f6</item>-->
+<!--        <item name="colorPrimaryDark">#f6f6f6</item>-->
+<!--        <item name="colorAccent">#f6f6f6</item>-->
+<!--    </style>-->
 
 </resources>

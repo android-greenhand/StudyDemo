@@ -150,6 +150,9 @@ dependencies {
 
 // navigation
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha08"
+    implementation 'com.hd.viewcapture:viewcapture:1.4'
+
+    implementation 'com.hd.splashscreen:splashscreen:1.4'
 
 }
 //repositories {
