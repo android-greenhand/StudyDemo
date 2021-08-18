@@ -17,13 +17,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".compose.KotlinActivity"
+            android:label="compose/KotlinActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".LaunchActivity"
-            android:hardwareAccelerated="true"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/LaunchActivityTheme">
+            android:hardwareAccelerated="true"
+            android:theme="@style/LaunchActivityTheme"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,16 +45,12 @@
             android:exported="true"
             android:label="packageManager/PKMSActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
-
         </activity>
-
-
         <activity
             android:name=".compose.ComposeMainActivity"
             android:exported="true"
@@ -118,10 +124,9 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+        <activity
+            android:name=".main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".behavior.BehaviorActivity"
             android:label="Behavior"

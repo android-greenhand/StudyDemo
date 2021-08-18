@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.studyApp.compose.KotlinActivity;
 import com.example.studyApp.main.MainActivity;
 import com.hd.splashscreen.text.SimpleConfig;
 import com.hd.splashscreen.text.SimpleSplashFinishCallback;
@@ -14,6 +15,8 @@ import com.hd.splashscreen.text.SimpleSplashScreen;
 
 
 public class LaunchActivity extends AppCompatActivity implements SimpleSplashFinishCallback{
+
+    Class secondActivity =  KotlinActivity.class; // MainActivity.class
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +32,7 @@ public class LaunchActivity extends AppCompatActivity implements SimpleSplashFin
 
     @Override
     public void loadFinish() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this,secondActivity));
         finish();
     }
 }
