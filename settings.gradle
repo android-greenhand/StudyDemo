@@ -29,3 +29,4 @@ gradle.buildFinished {
 include ":app"
 
 rootProject.name = "StudyDemo"
+//include ':plugin'

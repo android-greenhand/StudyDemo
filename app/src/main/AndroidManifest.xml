@@ -18,6 +18,17 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".demo.plugin.PluginActivity"
+            android:label="demo/plugin/PluginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".compose.KotlinActivity"
             android:label="compose/KotlinActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -26,7 +37,6 @@
 
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".LaunchActivity"
@@ -126,7 +136,7 @@
         </activity>
         <activity
             android:name=".main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".behavior.BehaviorActivity"
             android:label="Behavior"

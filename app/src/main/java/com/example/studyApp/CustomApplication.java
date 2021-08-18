@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.example.studyApp.StatusBar.CustomActivityLifecycleCallback;
 import com.example.studyApp.demo.other.GreyEffect;
+import com.example.studyApp.utils.PluginTool;
 
 public class CustomApplication extends Application {
 
@@ -12,6 +13,7 @@ public class CustomApplication extends Application {
 
     public void onCreate() {
         super.onCreate();
+        PluginTool.loadPluginDex(this);
         registerActivityLifecycleCallbacks(CustomActivityLifecycleCallback.getInstance());
         registerActivityLifecycleCallbacks(GreyEffect.INSTANCE);
     }
