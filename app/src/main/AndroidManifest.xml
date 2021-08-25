@@ -18,6 +18,21 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".verify.VerifyActivity"
+            android:label="verify/VerifyActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".demo.plugin.PluginProxyActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".demo.plugin.PluginActivity"
             android:label="demo/plugin/PluginActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -27,7 +42,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".compose.KotlinActivity"
             android:label="compose/KotlinActivity"

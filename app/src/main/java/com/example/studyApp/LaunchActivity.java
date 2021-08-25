@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.studyApp.compose.KotlinActivity;
+import com.example.studyApp.demo.plugin.PluginTool;
 import com.example.studyApp.main.MainActivity;
 import com.hd.splashscreen.text.SimpleConfig;
 import com.hd.splashscreen.text.SimpleSplashFinishCallback;
@@ -28,6 +29,10 @@ public class LaunchActivity extends AppCompatActivity implements SimpleSplashFin
         screen.addConfig(simpleConfig);
 
         screen.start();
+
+
+        PluginTool.hooKStartActivity(this);
+        PluginTool.hookInstrumentation();
     }
 
     @Override
