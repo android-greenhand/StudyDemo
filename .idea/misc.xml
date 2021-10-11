@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/text_view_default_bg.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/layout/activity_behavior.xml" value="0.14361702127659576" />
         <entry key="app/src/main/res/layout/activity_data_binding.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/activity_hotfix.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_kotlin.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_plugin.xml" value="0.2953125" />
@@ -16,6 +17,7 @@
         <entry key="app/src/main/res/layout/activity_verify.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/bottom_sheet_dialog_fragment_recycle_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/starred_discount.xml" value="0.159375" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.31145833333333334" />
         <entry key="plugin/src/main/res/layout/activity_plugin.xml" value="0.14361702127659576" />
       </map>
     </option>

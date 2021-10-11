@@ -1,0 +1,1 @@
+/Users/a58/gzpProjects/AndroidStudioProjects/学习demo/buildSrc/build/classes/java/main/PatchExtension.class:/Users/a58/gzpProjects/AndroidStudioProjects/学习demo/buildSrc/build/classes/kotlin/main/HotFixPatchPlugin$apply$2.class:/Users/a58/gzpProjects/AndroidStudioProjects/学习demo/buildSrc/build/classes/kotlin/main/HotFixPatchPlugin.class

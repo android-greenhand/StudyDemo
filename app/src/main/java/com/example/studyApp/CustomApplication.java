@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.example.studyApp.StatusBar.CustomActivityLifecycleCallback;
+import com.example.studyApp.demo.hotfix.HotfixTools;
 import com.example.studyApp.demo.other.GreyEffect;
 import com.example.studyApp.demo.plugin.PluginTool;
 import com.example.studyApp.verify.MemoryDetectionCallback2;
@@ -14,7 +15,8 @@ public class CustomApplication extends Application {
 
     public void onCreate() {
         super.onCreate();
-        PluginTool.loadPluginDex(this);
+        HotfixTools.loadPatchApk(this);
+       // PluginTool.loadPluginDex(this);
         registerComponentCallbacks(MemoryDetectionCallback2.getInstance());
         registerActivityLifecycleCallbacks(CustomActivityLifecycleCallback.getInstance());
         registerActivityLifecycleCallbacks(GreyEffect.INSTANCE);

@@ -17,6 +17,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".demo.hotfix.HotfixActivity"
+            android:label="demo/hotfix/HotfixActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".verify.VerifyActivity"
             android:label="verify/VerifyActivity"
@@ -31,7 +43,6 @@
         <activity
             android:name=".demo.plugin.PluginProxyActivity"
             android:exported="true" />
-
         <activity
             android:name=".demo.plugin.PluginActivity"
             android:label="demo/plugin/PluginActivity"
@@ -42,6 +53,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".compose.KotlinActivity"
             android:label="compose/KotlinActivity"
@@ -52,6 +64,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".LaunchActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
@@ -64,9 +77,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".packageManager.PKMSActivity"
-            android:exported="true"
             android:label="packageManager/PKMSActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -75,9 +88,9 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".compose.ComposeMainActivity"
-            android:exported="true"
             android:label="compose/ComposeMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -85,6 +98,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".customView.test.TestActivity"
             android:label="CustomView/理论实践/TestActivity">
@@ -94,6 +108,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".animation.ValueAnimatorActivity"
             android:label="Animation/ValueAnimator">
@@ -103,6 +118,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".demo.screenCapture.ScreenCaptureActivity"
             android:label="demo/ScreenCapture">
@@ -112,6 +128,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".xiangxue.prxoy.ProxyActivity"
             android:label="xiangxue/proxy">
@@ -121,6 +138,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".jetpack.DataBindingActivity"
             android:label="jetpack/dataBinding">
@@ -130,6 +148,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".customView.comment.CommentActivity"
             android:label="CustomView/仿抖音评论布局">
@@ -139,6 +158,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".StatusBar.StatusBarActivity"
             android:label="StatusBar">
@@ -148,6 +168,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -161,6 +182,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".animation.LottieActivity"
             android:label="Animation/Lottie">
@@ -170,6 +192,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".github.ViewMoreTextViewActivity"
             android:label="Github/viewMoreTextView">
@@ -179,6 +202,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".customView.ToastActivity"
             android:label="CustomView/Toast在子线程">
@@ -188,6 +212,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".JNI.JNIActivity"
             android:label="JNI">
@@ -197,6 +222,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".customView.flowLayout.FlowLayoutActivity"
             android:label="CustomView/FlowLayout">
@@ -206,6 +232,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

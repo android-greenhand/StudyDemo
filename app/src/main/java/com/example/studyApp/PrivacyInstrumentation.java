@@ -28,6 +28,12 @@ public class PrivacyInstrumentation extends Instrumentation {
         mReflect.invoke(this);
     }
 
+    /**
+     * 在哪里调用 super.callApplicationOnCreate();
+     * application 的onCreate将会在哪里执行
+     *
+     * @param app
+     */
     @Override
     public void callApplicationOnCreate(Application app) {
         mApp = app;

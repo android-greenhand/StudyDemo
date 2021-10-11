@@ -4,6 +4,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+apply plugin:'test.hotfix.patch'
+
+patch{
+    applicationName = "com.example.studyapp"
+    debugOn =  true
+    output("1111")
+}
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "30.0.3"
