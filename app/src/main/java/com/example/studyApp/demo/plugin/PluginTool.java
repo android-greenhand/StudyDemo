@@ -86,8 +86,8 @@ public class PluginTool {
         ClassLoader classLoader = context.getClassLoader();
         try {
             Class<?> PluginAppClassTest = classLoader.loadClass("com.example.plugin.PluginAppClassTest");
-            Method getPluginAppClassTest = PluginAppClassTest.getMethod("getPluginAppClassTest", null);
-            return (String) getPluginAppClassTest.invoke(null, null);
+            Method getPluginAppClassTest = PluginAppClassTest.getMethod("getPluginAppClassTest");
+            return (String) getPluginAppClassTest.invoke(null);
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             Log.e("PluginTool getStringFromPlugin", e.toString());

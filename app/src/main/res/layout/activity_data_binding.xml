@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="ItemDataBean"
-            type="com.example.studyApp.behavior.ItemDataBean" />
+            name="DataBindingBean"
+            type="com.example.studyApp.jetpack.DataBindingBean" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:id="@+id/dataBinding_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ItemDataBean.toString()}"
+            android:text="@={DataBindingBean.string}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
