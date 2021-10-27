@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".compose.KotlinActivity">
+    tools:context=".jetpack.compose.KotlinActivity">
 
     <TextView
         android:id="@+id/activity_hot_fix_text"

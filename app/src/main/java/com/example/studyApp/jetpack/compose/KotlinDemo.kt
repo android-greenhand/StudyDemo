@@ -1,4 +1,4 @@
-package com.example.studyApp.compose
+package com.example.studyApp.jetpack.compose
 
 
 /**

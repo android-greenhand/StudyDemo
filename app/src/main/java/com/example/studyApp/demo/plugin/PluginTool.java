@@ -127,7 +127,7 @@ public class PluginTool {
                                 if (!TextUtils.isEmpty(pluginIntent.getStringExtra(HOOK_FLAG))) {
                                     Intent hostProxyIntent = new Intent();
                                     //这样写会有问题 （PluginProxyActivity 没有在AndroidManifest.xml中注册 找不到），好奇怪
-                                    //  hostProxyIntent.setComponent(new ComponentName("com.example.studyApp",PluginProxyActivity.class.getName()));
+                                    //  hostProxyIntent.setComponent(new ComponentName("com.example.com.example.studyApp",PluginProxyActivity.class.getName()));
 
                                     hostProxyIntent.setComponent(new ComponentName(context.getPackageName(), PluginProxyActivity.class.getName()));
                                     hostProxyIntent.putExtra(PLUGIN_INTENT, pluginIntent);

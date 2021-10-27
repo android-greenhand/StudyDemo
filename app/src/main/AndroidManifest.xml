@@ -55,8 +55,8 @@
         </activity>
 
         <activity
-            android:name=".compose.KotlinActivity"
-            android:label="compose/KotlinActivity"
+            android:name="com.example.studyApp.jetpack.compose.KotlinActivity"
+            android:label="jetpack/compose/KotlinActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -90,8 +90,8 @@
         </activity>
 
         <activity
-            android:name=".compose.ComposeMainActivity"
-            android:label="compose/ComposeMainActivity">
+            android:name="com.example.studyApp.jetpack.compose.ComposeMainActivity"
+            android:label="jetpack/compose/ComposeMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

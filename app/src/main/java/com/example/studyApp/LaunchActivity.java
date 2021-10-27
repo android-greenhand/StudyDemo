@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.studyApp.compose.KotlinActivity;
 import com.example.studyApp.demo.plugin.PluginTool;
 import com.example.studyApp.main.MainActivity;
 import com.hd.splashscreen.text.SimpleConfig;
