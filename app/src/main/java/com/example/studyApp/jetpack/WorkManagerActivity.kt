@@ -1,6 +1,7 @@
 package com.example.studyApp.jetpack
 
 import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -167,7 +168,9 @@ fun vibrator(context: Context) {
 
     val patter = longArrayOf(1000, 1000, 1000, 1000)
 
-    vibrator.vibrate(VibrationEffect.createWaveform(patter, -1))
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        vibrator.vibrate(VibrationEffect.createWaveform(patter, -1))
+    }
 }
 
 const val VIBRATOR_WORK = "VIBRATOR_WORK_GZP"
@@ -176,7 +179,7 @@ class VibratorWork(context: Context, workerParams: WorkerParameters) : Worker(co
     override fun doWork(): Result {
         Log.d(VIBRATOR_WORK, "vibrator work is running")
 
-        vibrator(applicationContext)
+     //   vibrator(applicationContext)
 
         return Result.success()
     }
