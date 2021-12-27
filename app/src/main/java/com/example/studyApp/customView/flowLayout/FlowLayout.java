@@ -6,17 +6,20 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.studyApp.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class FlowLayout extends ViewGroup {
 
     public static final String TAG = "FlowLayout";
-    private int mHorizontalSpace;
-    private int mVerticalSpace;
+    private int mHorizontalSpace = 0;
+    private int mVerticalSpace = 0;
     private List<List<View>> mAllView = new ArrayList<>();
     private List<Integer> mLineHeight = new ArrayList<>();
+    private int maxLine = Integer.MAX_VALUE;
 
     public FlowLayout(Context context) {
         this(context, null);
@@ -29,8 +32,10 @@ public class FlowLayout extends ViewGroup {
     public FlowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout);
-        mVerticalSpace = typedArray.getInt(R.styleable.FlowLayout_verticalSpace, 0);
-        mHorizontalSpace = typedArray.getInt(R.styleable.FlowLayout_horizontalSpace, 0);
+        mVerticalSpace = (int) typedArray.getDimension(R.styleable.FlowLayout_verticalSpace, mVerticalSpace);
+        mHorizontalSpace = (int) typedArray.getDimension(R.styleable.FlowLayout_horizontalSpace, mHorizontalSpace);
+        typedArray.recycle();
+        maxLine = 2;
     }
 
 
@@ -42,8 +47,8 @@ public class FlowLayout extends ViewGroup {
         int selfHeightMode = MeasureSpec.getMode(heightMeasureSpec);
         int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
         int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
-        Log.d(TAG,selfWidthMode==MeasureSpec.EXACTLY? "exactly":"at_most");
-        Log.d(TAG,parentWidth+"");
+        Log.d(TAG, selfWidthMode == MeasureSpec.EXACTLY ? "exactly" : "at_most");
+        Log.d(TAG, parentWidth + "");
 
         int currHeight = 0;
         int lineMaxHeight = 0;
@@ -64,6 +69,10 @@ public class FlowLayout extends ViewGroup {
             int childHeight = childView.getMeasuredHeight();
 
             int widthTemp = lineWidthUsed + mHorizontalSpace + childWidth;
+
+            /**
+             * 换行
+             */
             if (widthTemp > parentWidth) {
                 mAllView.add(lineView);
                 currHeight += (lineMaxHeight + mVerticalSpace);
@@ -73,18 +82,27 @@ public class FlowLayout extends ViewGroup {
                 lineView = new ArrayList<>();
                 lineMaxHeight = 0;
             }
+
+            if (mAllView.size() == maxLine) {
+                setMeasuredDimension(selfWidthMode == MeasureSpec.EXACTLY ? parentWidth : lineMaxWidth,
+                        selfHeightMode == MeasureSpec.EXACTLY ? parentHeight : currHeight);
+                return;
+            }
+
             lineView.add(childView);
             lineMaxHeight = Math.max(lineMaxHeight, childHeight);
             lineWidthUsed = widthTemp;
         }
 
+        /**
+         * 最后一行的View 也进行添加
+         */
         lineMaxWidth = Math.max(lineMaxWidth, lineWidthUsed);
-
         mAllView.add(lineView);
         currHeight += lineMaxHeight;
         mLineHeight.add(currHeight);
-        Log.d(TAG + "mAllView", mAllView.size() + "");
 
+        Log.d(TAG + "mAllView", mAllView.size() + "");
         Log.d(TAG + "currHeight", currHeight + "");
         Log.d(TAG + "lineMaxWidth", lineMaxWidth + "");
 

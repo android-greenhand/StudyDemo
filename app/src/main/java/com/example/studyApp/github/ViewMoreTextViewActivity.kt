@@ -15,7 +15,7 @@ class ViewMoreTextViewActivity : AppCompatActivity() {
 
         viewMore
             .setAnimationDuration(500)
-            .setEllipsizedText("View More")
+            .setEllipsizedText("展开")
             .setVisibleLines(3)
             .setIsExpanded(false)
             .setEllipsizedTextColor(ContextCompat.getColor(this, R.color.colorAccent))

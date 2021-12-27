@@ -14,13 +14,13 @@ patch{
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.example.studyapp"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -158,8 +158,8 @@ dependencies {
     implementation "androidx.compose.foundation:foundation-layout:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
 
-    androidTestImplementation "androidx.compose.ui:ui-test:$compose_version"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+//    androidTestImplementation "androidx.compose.ui:ui-test:$compose_version"
+//    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
 // navigation
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha08"
@@ -169,7 +169,7 @@ dependencies {
 
     implementation "androidx.work:work-runtime:2.6.0"
 
-
+    implementation("com.squareup.okhttp3:okhttp:3.12.6")
 }
 //repositories {
 //    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }

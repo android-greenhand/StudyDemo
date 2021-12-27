@@ -7,7 +7,7 @@ ext {
 
 buildscript {
     ext {
-        kotlin_version = "1.4.32"
+        kotlin_version = "1.6.0"
         compose_version = '1.0.0-beta05'
     }
     repositories {
@@ -44,5 +44,12 @@ task clean(type: Delete) {
 
 
 
-
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-reflect') {
+            details.useVersion kotlin_version
+        }
+    }
+}
 

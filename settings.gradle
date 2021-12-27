@@ -30,3 +30,4 @@ include ":app"
 
 rootProject.name = "StudyDemo"
 include ':plugin'
+include ':TrainingCamp'

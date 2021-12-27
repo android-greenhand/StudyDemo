@@ -2,21 +2,30 @@ package com.example.studyApp;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.example.studyApp.StatusBar.CustomActivityLifecycleCallback;
 import com.example.studyApp.demo.hotfix.HotfixTools;
 import com.example.studyApp.demo.other.GreyEffect;
-import com.example.studyApp.demo.plugin.PluginTool;
 import com.example.studyApp.verify.MemoryDetectionCallback2;
+
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 
 public class CustomApplication extends Application {
 
-    @Override
 
+    @Override
     public void onCreate() {
+       // hookDnsCacheSizeAndTime();
         super.onCreate();
         HotfixTools.loadPatchApk(this);
-       // PluginTool.loadPluginDex(this);
+        // PluginTool.loadPluginDex(this);
         registerComponentCallbacks(MemoryDetectionCallback2.getInstance());
         registerActivityLifecycleCallbacks(CustomActivityLifecycleCallback.getInstance());
         registerActivityLifecycleCallbacks(GreyEffect.INSTANCE);
@@ -26,6 +35,7 @@ public class CustomApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-      //  PrivacyInstrumentation.attach(this);
+        //  PrivacyInstrumentation.attach(this);
     }
+
 }
