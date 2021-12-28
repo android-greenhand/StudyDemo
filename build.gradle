@@ -7,7 +7,7 @@ ext {
 
 buildscript {
     ext {
-        kotlin_version = "1.6.0"
+        kotlin_version = "1.4.32"
         compose_version = '1.0.0-beta05'
     }
     repositories {
@@ -35,6 +35,10 @@ allprojects {
     repositories {
         google()
         jcenter()
+        /**
+         * 反射库 FreeReflection 可让您在 Android P（包括 Q 和 R）之上不受任何限制地使用反射。
+         */
+        maven { url 'https://jitpack.io' }
     }
 }
 

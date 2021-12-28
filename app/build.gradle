@@ -14,13 +14,13 @@ patch{
 
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.example.studyapp"
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -170,6 +170,13 @@ dependencies {
     implementation "androidx.work:work-runtime:2.6.0"
 
     implementation("com.squareup.okhttp3:okhttp:3.12.6")
+
+
+    /**
+     * 反射库 FreeReflection 可让您在 Android P（包括 Q 和 R）之上不受任何限制地使用反射。
+     */
+    implementation 'com.github.tiann:FreeReflection:3.1.0'
+
 }
 //repositories {
 //    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
