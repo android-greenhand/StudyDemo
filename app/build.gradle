@@ -171,11 +171,15 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:3.12.6")
 
+    implementation 'com.google.code.gson:gson:2.7'
 
     /**
      * 反射库 FreeReflection 可让您在 Android P（包括 Q 和 R）之上不受任何限制地使用反射。
      */
     implementation 'com.github.tiann:FreeReflection:3.1.0'
+
+
+    compile group: 'com.github.jsonzou', name: 'jmockdata', version: '4.3.0'
 
 }
 //repositories {

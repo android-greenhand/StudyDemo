@@ -26,7 +26,7 @@ public class CustomApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        HotfixTools.loadPatchApk(this);
+  //      HotfixTools.loadPatchApk(this);
         // PluginTool.loadPluginDex(this);
         registerComponentCallbacks(MemoryDetectionCallback2.getInstance());
         registerActivityLifecycleCallbacks(CustomActivityLifecycleCallback.getInstance());
@@ -39,8 +39,8 @@ public class CustomApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         //  PrivacyInstrumentation.attach(this);
-        Reflection.unseal(base);
-        NetWorkHook.hookDnsCacheSizeAndTime(base);
+//        Reflection.unseal(base);
+//        NetWorkHook.hookDnsCacheSizeAndTime(base);
     }
 
 }

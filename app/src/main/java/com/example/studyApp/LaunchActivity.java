@@ -30,8 +30,8 @@ public class LaunchActivity extends AppCompatActivity implements SimpleSplashFin
         screen.start();
 
 
-        PluginTool.hooKStartActivity(this);
-        PluginTool.hookInstrumentation();
+//        PluginTool.hooKStartActivity(this);
+//        PluginTool.hookInstrumentation();
     }
 
     @Override
