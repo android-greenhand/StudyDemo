@@ -34,6 +34,12 @@ android {
         ndk {
             ldLibs "log"
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
     //主要指定生成安装文件的主演配置
     buildTypes {
@@ -180,6 +186,12 @@ dependencies {
 
 
     compile group: 'com.github.jsonzou', name: 'jmockdata', version: '4.3.0'
+
+
+    compile 'com.alibaba:arouter-api:1.5.2'
+    //annotationProcessor 'com.alibaba:arouter-compiler:1.5.2'
+    kapt  'com.alibaba:arouter-compiler:1.5.2'
+
 
 }
 //repositories {

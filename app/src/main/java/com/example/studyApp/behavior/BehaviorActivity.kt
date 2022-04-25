@@ -18,6 +18,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.example.studyApp.R
 import com.example.studyApp.demo.screenCapture.ScreenCaptureUtil
 import com.example.studyApp.demo.screenCapture.ScreenShotUtil
@@ -25,6 +26,7 @@ import com.squareup.cycler.Recycler
 import com.squareup.cycler.toDataSource
 import kotlinx.android.synthetic.main.activity_behavior.*
 
+@Route(path = "/test/BehaviorActivity")
 class BehaviorActivity() : AppCompatActivity() {
 
     lateinit var mScreenShotUtil: ScreenShotUtil

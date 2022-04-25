@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.studyApp.R;
 import com.example.studyApp.StatusBar.StatusBarUtils;
+import com.example.studyApp.utils.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
+        ARouter.getInstance().build("/test/BehaviorActivity").navigation();
 
     }
 
