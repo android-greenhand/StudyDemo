@@ -4,11 +4,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply plugin:'test.hotfix.patch'
+apply plugin: 'test.hotfix.patch'
 
-patch{
+apply plugin: 'com.gzp.rewrite'
+
+patch {
     applicationName = "com.example.studyapp"
-    debugOn =  true
+    debugOn = true
     output("1111")
 }
 
@@ -61,7 +63,7 @@ android {
         enabled = true
     }
 
-    viewBinding{
+    viewBinding {
         enabled = true
     }
 
@@ -190,7 +192,7 @@ dependencies {
 
     compile 'com.alibaba:arouter-api:1.5.2'
     //annotationProcessor 'com.alibaba:arouter-compiler:1.5.2'
-    kapt  'com.alibaba:arouter-compiler:1.5.2'
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
 
 }
@@ -198,3 +200,47 @@ dependencies {
 //    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
 //    mavenCentral()
 //}
+
+
+project.afterEvaluate {
+
+/* Tested with Gradle 6.3 */
+
+    tasks.register("depsize") {
+        description = 'Prints dependencies for "default" configuration'
+        doLast() {
+            listConfigurationDependencies(configurations.default)
+        }
+    }
+
+    tasks.register("depsize-all-configurations") {
+        description = 'Prints dependencies for all available configurations'
+        doLast() {
+            configurations
+                    .findAll { it.isCanBeResolved() }
+                    .each { listConfigurationDependencies(it) }
+        }
+    }
+}
+
+def listConfigurationDependencies(org.gradle.api.artifacts.Configuration configuration) {
+    def formatStr = "%,10.2f"
+
+    def size = configuration.collect { it.length() / (1024 * 1024) }.sum()
+
+    def out = new StringBuffer()
+    out << "\nConfiguration name: \"${configuration.name}\"\n"
+    if (size) {
+        out << 'Total dependencies size:'.padRight(65)
+        out << "${String.format(formatStr, size)} Mb\n\n"
+
+        configuration.sort { -it.length() }
+                .each {
+                    out << "${it.name}".padRight(65)
+                    out << "${String.format(formatStr, (it.length() / 1024))} kb\n"
+                }
+    } else {
+        out << 'No dependencies found';
+    }
+    println(out)
+}

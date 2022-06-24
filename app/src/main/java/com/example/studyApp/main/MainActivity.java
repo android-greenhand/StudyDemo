@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-        ARouter.getInstance().build("/test/BehaviorActivity").navigation();
-
     }
 
     private List<ActivityBean> getData(String path) {

@@ -11,9 +11,10 @@ buildscript {
         compose_version = '1.0.0-beta05'
     }
     repositories {
+        maven { url uri('./repo/') }
         mavenLocal()
-        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
+//        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+//        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url "https://maven.aliyun.com/repository/google" }
         maven { url "https://maven.aliyun.com/repository/public" }
         maven { url "https://maven.aliyun.com/repository/jcenter" }
@@ -28,11 +29,17 @@ buildscript {
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.13'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        classpath 'com.gzp.rewrite:RewritePlugin:0.0.1'
     }
 }
 
 allprojects {
     repositories {
+        maven { url uri('./repo/') }
+        maven { url "https://maven.aliyun.com/repository/google" }
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url "https://maven.aliyun.com/repository/jcenter" }
+        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
         google()
         jcenter()
         /**
@@ -45,7 +52,6 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
 
 
 configurations.all {

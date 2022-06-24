@@ -1,0 +1,117 @@
+buildscript {
+    repositories {
+//        maven { url 'https://maven.aliyun.com/repository/google' }
+//        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        google()
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+    id 'maven'
+    id 'org.jetbrains.kotlin.jvm'
+//    id 'kotlin-dsl'// 使用kotlin脚本
+}
+
+
+//install {
+//    repositories.mavenInstaller {
+//        pom.version = '1.0.13' // 配置插件版本号
+//        pom.artifactId = 'RewritePlugin' // 配置插件标识
+//        pom.groupId = 'rewrite.plugin' // 配置插件组织
+//    }
+//}
+
+
+dependencies {
+    implementation localGroovy()
+    implementation gradleApi()
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compileOnly 'com.android.tools.build:gradle:4.0.2'
+    compileOnly 'com.android.tools.build:gradle-api:4.0.2'
+
+    compile group: 'org.ow2.asm', name: 'asm-commons', version: '7.0'
+    compile group: 'org.apache.maven.shared', name: 'maven-dependency-analyzer', version: '1.11.1'
+    compile 'com.google.code.gson:gson:2.8.5'
+
+    compile 'com.github.javaparser:javaparser-symbol-solver-core:3.22.1'
+}
+
+compileJava {
+    sourceCompatibility "1.8"
+    targetCompatibility "1.8"
+}
+
+compileGroovy {
+    sourceCompatibility "1.8"
+    targetCompatibility "1.8"
+}
+
+repositories {
+//    maven { url 'https://maven.aliyun.com/repository/google' }
+//    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url "https://jitpack.io" }
+    google()
+    mavenCentral()
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            maven(MavenPublication) {
+                groupId = project.group
+                artifactId = project.name.toLowerCase()
+                version = project.version
+
+                from components.java
+            }
+
+            pluginMaven(MavenPublication) {
+                groupId = project.group
+                artifactId = project.name.toLowerCase()
+                version = project.version
+            }
+        }
+    }
+}
+
+//uploadArchives {
+//    repositories.mavenDeployer {
+//        repository(url: uri("${MAVEN_URL}")) {
+//            authentication(userName: MAVEN_USERNAME, password: MAVEN_PASSWORD)
+//        }
+//
+//        pom.groupId = project.group
+//        pom.artifactId = project.name.toLowerCase()
+//        pom.version = project.version
+//    }
+//}
+
+
+group = 'com.gzp.rewrite'
+version = '0.0.1'
+
+
+gradlePlugin {
+    plugins {
+        modularPlugin {
+            id = project.group
+            implementationClass = 'com.gzp.rewrite.RewritePlugin'
+        }
+    }
+}
+
+
+//upload
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+        }
+    }
+}
