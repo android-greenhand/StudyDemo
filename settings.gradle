@@ -31,4 +31,4 @@ include ":app" //主模块
 include ':plugin' //热修复
 include ':TrainingCamp' //训练营 java kotlin语法
 include ':Demonstration' //示列演示
-include ':RewritePlugin' //ASM Plugin
+//include ':RewritePlugin' //ASM Plugin
