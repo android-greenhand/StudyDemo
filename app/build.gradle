@@ -4,15 +4,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'test.hotfix.patch'
-
-apply plugin: 'com.gzp.rewrite'
-
-patch {
-    applicationName = "com.example.studyapp"
-    debugOn = true
-    output("1111")
-}
+//apply plugin: 'test.hotfix.patch'
+//
+//apply plugin: 'com.gzp.rewrite'
+//
+//patch {
+//    applicationName = "com.example.studyapp"
+//    debugOn = true
+//    output("1111")
+//}
 
 
 android {
@@ -22,7 +22,7 @@ android {
     defaultConfig {
         applicationId "com.example.studyapp"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -42,6 +42,11 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+
+//        configurations.all {
+//            resolutionStrategy { force 'androidx.core:core:1.9.0' }
+//        }
+
     }
     //主要指定生成安装文件的主演配置
     buildTypes {
@@ -216,9 +221,23 @@ project.afterEvaluate {
     tasks.register("depsize-all-configurations") {
         description = 'Prints dependencies for all available configurations'
         doLast() {
+
             configurations
                     .findAll { it.isCanBeResolved() }
-                    .each { listConfigurationDependencies(it) }
+                    .each {
+                        println(it.name)
+                    }
+
+            configurations
+                    .findAll { it.isCanBeResolved() }
+                    .each {
+                        try {
+                            listConfigurationDependencies(it)
+                        } catch (Exception e) {
+                            println(it.name + "抛出异常" + e.toString())
+                        }
+
+                    }
         }
     }
 }

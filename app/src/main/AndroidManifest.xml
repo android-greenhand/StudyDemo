@@ -8,6 +8,16 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <!-- 获取应用列表 11（含11）以上    !-->
+<!--    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />-->
+
+
+
+<!--        <queries>-->
+<!--            <package android:name="com.autonavi.minimap" />-->
+<!--            <package android:name="com.example.services" />-->
+<!--        </queries>-->
+
 
     <application
         android:name=".CustomApplication"

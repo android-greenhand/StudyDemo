@@ -2,9 +2,14 @@ package com.example.studyApp.packageManager;
 
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -17,23 +22,66 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studyApp.R;
+import com.example.studyApp.customView.comment.CommentActivityViewModel;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class PKMSActivity extends AppCompatActivity {
 
+
     final static String TAG = "gzpPKMSActivity";
     final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    private OtherAppFragment mOtherAppFragment = new OtherAppFragment();
+    List<String> list = new ArrayList<String>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         setContentView(R.layout.content_pkmsactivity);
         findViewById(R.id.request_permission_btn).setOnClickListener(v -> requestPermission());
+        TextView btn = findViewById(R.id.open_other_app_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                mOtherAppFragment.show(PKMSActivity.this.getSupportFragmentManager(), "test");
+
+
+//                for (PackageUlti.AppInfo appInfo : PackageUlti.getAllAppInfo(PKMSActivity.this, true)) {
+//                    Log.d("gzp_packageInfo", appInfo.package_name);
+//                }
+//
+
+            }
+        });
+
+
+        new ViewModelProvider(
+                this,
+                new ViewModelProvider.NewInstanceFactory()
+        ).get(CommentActivityViewModel.class).getMCommentStatus().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    btn.setText("隐藏");
+                } else {
+                    btn.setText("展开");
+                }
+            }
+        });
     }
+
 
     @Override
     protected void onDestroy() {
@@ -42,12 +90,12 @@ public class PKMSActivity extends AppCompatActivity {
 
     /**
      * 手机震动 还需要在AndroidManifest声明权限
-     *
      */
-    private void phoneVibrates(){
-        Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+    private void phoneVibrates() {
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(10000);
     }
+
 
     private void requestPermission() {
         Log.i(TAG, "requestPermission");
@@ -124,4 +172,8 @@ public class PKMSActivity extends AppCompatActivity {
                     }
                 }).show();
     }
+
+
+
 }
+
