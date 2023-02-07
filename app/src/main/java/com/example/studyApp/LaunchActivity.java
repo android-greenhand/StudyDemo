@@ -16,7 +16,7 @@ import com.hd.splashscreen.text.SimpleSplashScreen;
 
 public class LaunchActivity extends AppCompatActivity implements SimpleSplashFinishCallback{
 
-    Class secondActivity =  MainActivity.class; // MainActivity.class
+    Class secondActivity =  MainActivity.class; // WebViewActivity.class
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

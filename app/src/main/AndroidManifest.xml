@@ -9,14 +9,13 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <!-- 获取应用列表 11（含11）以上    !-->
-<!--    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />-->
+    <!--    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />-->
 
 
-
-<!--        <queries>-->
-<!--            <package android:name="com.autonavi.minimap" />-->
-<!--            <package android:name="com.example.services" />-->
-<!--        </queries>-->
+    <!--        <queries>-->
+    <!--            <package android:name="com.autonavi.minimap" />-->
+    <!--            <package android:name="com.example.services" />-->
+    <!--        </queries>-->
 
 
     <application
@@ -31,8 +30,8 @@
 
         <activity
             android:name=".demo.esoterica.SystemDemoActivity"
-            android:label="demo/esoterica/SystemDemoActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="demo/esoterica/SystemDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,8 +40,8 @@
         </activity>
         <activity
             android:name=".network.NetworkActivity"
-            android:label="network/NetworkActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="network/NetworkActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -62,8 +61,8 @@
         </activity>
         <activity
             android:name=".jetpack.WorkManagerActivity"
-            android:label="jetpack/WorkManagerActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="jetpack/WorkManagerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -72,20 +71,36 @@
         </activity>
         <activity
             android:name=".demo.hotfix.HotfixActivity"
+            android:exported="true"
             android:label="demo/hotfix/HotfixActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".demo.hardware.HardwareActivity"
+            android:exported="true"
+
+         android:hardwareAccelerated="false"
+            android:label="demo/hardware/HardwareActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name=".verify.VerifyActivity"
+            android:exported="true"
             android:label="verify/VerifyActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -97,9 +112,9 @@
             android:exported="true" />
         <activity
             android:name=".demo.plugin.PluginActivity"
+            android:exported="true"
             android:label="demo/plugin/PluginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -108,9 +123,9 @@
         </activity>
         <activity
             android:name=".jetpack.compose.KotlinActivity"
+            android:exported="true"
             android:label="jetpack/compose/KotlinActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -120,10 +135,10 @@
         <activity
             android:name=".LaunchActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden"
+            android:exported="true"
             android:hardwareAccelerated="true"
             android:theme="@style/LaunchActivityTheme"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true">
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -132,9 +147,9 @@
         </activity>
         <activity
             android:name=".packageManager.PKMSActivity"
+            android:exported="true"
             android:label="packageManager/PKMSActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -143,8 +158,8 @@
         </activity>
         <activity
             android:name=".jetpack.compose.ComposeMainActivity"
-            android:label="jetpack/compose/ComposeMainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="jetpack/compose/ComposeMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -153,8 +168,8 @@
         </activity>
         <activity
             android:name=".customView.test.TestActivity"
-            android:label="CustomView/理论实践/TestActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="CustomView/理论实践/TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -163,8 +178,8 @@
         </activity>
         <activity
             android:name=".animation.ValueAnimatorActivity"
-            android:label="Animation/ValueAnimator"
-            android:exported="true">
+            android:exported="true"
+            android:label="Animation/ValueAnimator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -173,18 +188,31 @@
         </activity>
         <activity
             android:name=".demo.screenCapture.ScreenCaptureActivity"
-            android:label="demo/ScreenCapture"
-            android:exported="true">
+            android:exported="true"
+            android:label="demo/ScreenCapture">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".demo.webviewperformancemonitor.WebViewActivity"
+            android:exported="true"
+            android:label="demo/WebView">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name=".xiangxue.prxoy.ProxyActivity"
-            android:label="xiangxue/proxy"
-            android:exported="true">
+            android:exported="true"
+            android:label="xiangxue/proxy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -193,8 +221,8 @@
         </activity>
         <activity
             android:name=".jetpack.DataBindingActivity"
-            android:label="jetpack/dataBinding"
-            android:exported="true">
+            android:exported="true"
+            android:label="jetpack/dataBinding">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -203,8 +231,8 @@
         </activity>
         <activity
             android:name=".customView.comment.CommentActivity"
-            android:label="CustomView/仿抖音评论布局"
-            android:exported="true">
+            android:exported="true"
+            android:label="CustomView/仿抖音评论布局">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -213,8 +241,8 @@
         </activity>
         <activity
             android:name=".StatusBar.StatusBarActivity"
-            android:label="StatusBar"
-            android:exported="true">
+            android:exported="true"
+            android:label="StatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -226,9 +254,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".behavior.BehaviorActivity"
+            android:exported="true"
             android:label="Behavior"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="true">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -237,8 +265,8 @@
         </activity>
         <activity
             android:name=".animation.LottieActivity"
-            android:label="Animation/Lottie"
-            android:exported="true">
+            android:exported="true"
+            android:label="Animation/Lottie">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -247,8 +275,8 @@
         </activity>
         <activity
             android:name=".github.ViewMoreTextViewActivity"
-            android:label="Github/viewMoreTextView"
-            android:exported="true">
+            android:exported="true"
+            android:label="Github/viewMoreTextView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -257,8 +285,8 @@
         </activity>
         <activity
             android:name=".customView.ToastActivity"
-            android:label="CustomView/Toast在子线程"
-            android:exported="true">
+            android:exported="true"
+            android:label="CustomView/Toast在子线程">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -267,8 +295,8 @@
         </activity>
         <activity
             android:name=".JNI.JNIActivity"
-            android:label="JNI"
-            android:exported="true">
+            android:exported="true"
+            android:label="JNI">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -277,8 +305,8 @@
         </activity>
         <activity
             android:name=".customView.flowLayout.FlowLayoutActivity"
-            android:label="CustomView/FlowLayout"
-            android:exported="true">
+            android:exported="true"
+            android:label="CustomView/FlowLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

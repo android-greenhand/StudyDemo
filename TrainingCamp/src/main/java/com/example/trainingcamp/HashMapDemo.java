@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 
 public class HashMapDemo {
     public static void main(String[] args) {
-
         test_toArray();
     }
 
