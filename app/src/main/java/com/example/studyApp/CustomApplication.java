@@ -2,22 +2,14 @@ package com.example.studyApp;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.studyApp.StatusBar.CustomActivityLifecycleCallback;
-import com.example.studyApp.demo.hotfix.HotfixTools;
 import com.example.studyApp.demo.other.GreyEffect;
-import com.example.studyApp.network.NetWorkHook;
 import com.example.studyApp.verify.MemoryDetectionCallback2;
-
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
-import me.weishu.reflection.Reflection;
 
 
 public class CustomApplication extends Application {
@@ -26,12 +18,12 @@ public class CustomApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("CustomApplication","onCreate");
   //      HotfixTools.loadPatchApk(this);
         // PluginTool.loadPluginDex(this);
         registerComponentCallbacks(MemoryDetectionCallback2.getInstance());
         registerActivityLifecycleCallbacks(CustomActivityLifecycleCallback.getInstance());
         registerActivityLifecycleCallbacks(GreyEffect.INSTANCE);
-
     }
 
 
@@ -42,5 +34,13 @@ public class CustomApplication extends Application {
 //        Reflection.unseal(base);
 //        NetWorkHook.hookDnsCacheSizeAndTime(base);
     }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.d("CustomApplication","onConfigurationChanged");
+    }
+
+
 
 }

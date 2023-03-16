@@ -17,6 +17,10 @@
     <!--            <package android:name="com.example.services" />-->
     <!--        </queries>-->
 
+    <!-- 解锁屏幕需要的权限 -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!-- 申请电源锁需要的权限 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".CustomApplication"
@@ -81,11 +85,37 @@
             </intent-filter>
         </activity>
 
+        <!--            android:theme="@style/LockScreenTheme"-->
+        <activity
+            android:name=".demo.lockscreen.LockScreenActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:taskAffinity="demo.lockscreen"
+            android:theme="@style/AppTheme.NoActionBar">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.SAMPLE_CODE" />-->
+            <!--            </intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".demo.lockscreen.LockScreenConditionActivity"
+            android:exported="true"
+            android:label="demo/lockscreen/LockScreenConditionActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".demo.hardware.HardwareActivity"
             android:exported="true"
 
-         android:hardwareAccelerated="false"
+            android:hardwareAccelerated="false"
             android:label="demo/hardware/HardwareActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -94,6 +124,34 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".demo.tile.TileActivity"
+            android:exported="true"
+            android:hardwareAccelerated="false"
+            android:label="demo/tile/TileActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".demo.tile.CustomDemoTileService"
+            android:exported="true"
+            android:icon="@drawable/img"
+            android:label="demo应用"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="true" />
+
+        </service>
 
 
         <activity
@@ -313,6 +371,17 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
+        <service android:name="com.example.studyApp.demo.lockscreen.LockScreenService" />
+        <!--        <receiver-->
+        <!--            android:name="com.example.studyApp.demo.lockscreen.LockScreenMsgReceiver"-->
+        <!--            android:enabled="true"-->
+        <!--            android:exported="true">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="com.zx.lockscreenmsgdemo.LockScreenMsgReceiver" />-->
+
+        <!--            </intent-filter>-->
+        <!--        </receiver>-->
     </application>
 
 </manifest>

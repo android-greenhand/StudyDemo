@@ -199,6 +199,8 @@ dependencies {
     //annotationProcessor 'com.alibaba:arouter-compiler:1.5.2'
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 
+    compile 'com.jaeger.statusbarutil:library:1.5.1'
+
 
 }
 //repositories {
