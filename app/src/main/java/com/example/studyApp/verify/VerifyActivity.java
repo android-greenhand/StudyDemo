@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
@@ -32,7 +33,7 @@ public class VerifyActivity extends AppCompatActivity {
 
         Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
 
-        Thread.currentThread().setUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
+       // Thread.currentThread().setUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
         findViewById(R.id.uncaughtExceptionHandler).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +88,18 @@ public class VerifyActivity extends AppCompatActivity {
         @Override
         public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
             Log.d(TAG, "当前线程：\t" + t.getName() + "异常：\t" + e.getMessage());
+
+            if (t == Looper.getMainLooper().getThread()) {
+                // 重启 Looper
+                while (true) {
+                    try {
+                    //    Looper.loop();
+                    } catch (Exception exception) {
+
+                    }
+                }
+            }
+
         }
     }
 }

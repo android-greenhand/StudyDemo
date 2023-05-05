@@ -9,6 +9,19 @@
     android:orientation="vertical"
     tools:context=".demo.SurfaceViewActivity">
 
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:padding="30dp"
+        android:background="#1D917474">
+
+        <ImageView
+
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/img" />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/btn"
         android:text="btn"
